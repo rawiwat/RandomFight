@@ -4,27 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FightActivity">
+    tools:context=".activities.FightActivity">
 
+    <!-- enemy layout -->
     <ImageView
         android:id="@+id/enemyImage"
         android:layout_width="200dp"
         android:layout_height="300dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@color/purple_200"/>
-
-    <ImageView
-        android:id="@+id/playerImage"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@color/purple_200"/>
+        />
 
     <ProgressBar
         android:id="@+id/enemyHpBar"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,6 +48,16 @@
         />
 
     <TextView
+        android:id="@+id/enemyDefenseIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DEF:"
+        app:layout_constraintRight_toLeftOf="@id/enemyDefense"
+        app:layout_constraintTop_toBottomOf="@id/enemyAttackIcon"
+        android:background="@color/grey"
+        />
+
+    <TextView
         android:id="@+id/enemyDefense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,6 +66,284 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/enemyAP"
         app:layout_constraintRight_toLeftOf="@id/enemyImage"
+        />
+
+
+    <TextView
+        android:id="@+id/enemySpeedIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SP:"
+        app:layout_constraintTop_toBottomOf="@id/enemyDefenseIcon"
+        app:layout_constraintRight_toLeftOf="@id/enemySpeed"
+        android:background="@color/yellow"
+        />
+
+    <TextView
+        android:id="@+id/enemySpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="SpeedPoint"
+        android:background="@color/yellow"
+        app:layout_constraintTop_toBottomOf="@id/enemyDefense"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/enemyImage"
+        />
+
+    <TextView
+        android:id="@+id/enemyHealingIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/magenta"
+        android:text="HL:"
+        app:layout_constraintTop_toBottomOf="@id/enemySpeedIcon"
+        app:layout_constraintRight_toLeftOf="@id/enemyHealing"
+        />
+
+    <TextView
+        android:id="@+id/enemyHealing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Healing"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/enemyImage"
+        app:layout_constraintTop_toBottomOf="@id/enemySpeed"
+        android:background="@color/magenta"
+        />
+
+    <TextView
+        android:id="@+id/enemyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="EnemyName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/enemyHp"
+        />
+
+    <TextView
+        android:id="@+id/enemyMaxHp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/enemyImage"
+        app:layout_constraintLeft_toRightOf="@id/enemyHp"
+        android:hint="Max Hp"
+        />
+
+    <TextView
+        android:id="@+id/enemyHp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Hp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/enemyName"
+        app:layout_constraintRight_toLeftOf="@id/enemyMaxHp"
+        />
+
+    <!--Player Layout-->
+
+    <ImageView
+        android:id="@+id/playerImage"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@color/purple_200"/>
+
+    <ProgressBar
+        android:id="@+id/playerHpBar"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/playerImage"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        />
+
+    <TextView
+        android:id="@+id/playerAttackIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ATK:"
+        app:layout_constraintTop_toBottomOf="@id/playerHpBar"
+        app:layout_constraintRight_toLeftOf="@id/playerAP"
+        app:layout_constraintBottom_toTopOf="@id/playerDefense"
+        android:background="@color/red"
+        />
+
+    <TextView
+        android:id="@+id/playerAP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Attack Point"
+        android:background="@color/red"
+        app:layout_constraintTop_toBottomOf="@id/playerHpBar"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        />
+
+    <TextView
+        android:id="@+id/playerDefenseIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DEF:"
+        app:layout_constraintRight_toLeftOf="@id/playerDefense"
+        app:layout_constraintTop_toBottomOf="@id/playerAttackIcon"
+        android:background="@color/grey"
+        />
+
+    <TextView
+        android:id="@+id/playerDefense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="DefensePoint"
+        android:background="@color/grey"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintTop_toBottomOf="@id/playerAP"
+        />
+
+
+    <TextView
+        android:id="@+id/playerSpeedIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SP:"
+        app:layout_constraintTop_toBottomOf="@id/playerDefenseIcon"
+        app:layout_constraintRight_toLeftOf="@id/playerSpeed"
+        android:background="@color/yellow"
+        />
+
+    <TextView
+        android:id="@+id/playerSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="SpeedPoint"
+        android:background="@color/yellow"
+        app:layout_constraintTop_toBottomOf="@id/playerDefense"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        />
+
+    <TextView
+        android:id="@+id/playerHealingIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/magenta"
+        android:text="HL:"
+        app:layout_constraintTop_toBottomOf="@id/playerSpeedIcon"
+        app:layout_constraintRight_toLeftOf="@id/playerHealing"
+        />
+
+    <TextView
+        android:id="@+id/playerHealing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Healing"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintTop_toBottomOf="@id/playerSpeed"
+        android:background="@color/magenta"
+        />
+
+    <TextView
+        android:id="@+id/you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="You"
+        app:layout_constraintTop_toTopOf="@id/playerImage"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintRight_toLeftOf="@id/playerHp"
+        android:layout_marginLeft="50dp"
+        />
+
+    <TextView
+        android:id="@+id/playerMaxHp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/playerImage"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerHp"
+        android:hint="Max Hp"
+        android:layout_marginRight="50dp"
+        />
+
+    <TextView
+        android:id="@+id/playerHp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Hp"
+        app:layout_constraintTop_toTopOf="@id/playerImage"
+        app:layout_constraintLeft_toRightOf="@id/you"
+        app:layout_constraintRight_toLeftOf="@id/playerMaxHp"
+        />
+
+
+
+    <!-- back press stuff here-->
+    <ImageView
+        android:id="@+id/backPressMenu"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:background="@color/teal_200"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/backPressMenuText"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Are you sure you want to quit the fight and go back to the main menu?"
+        app:layout_constraintTop_toTopOf="@id/backPressMenu"
+        app:layout_constraintLeft_toLeftOf="@id/backPressMenu"
+        app:layout_constraintRight_toRightOf="@id/backPressMenu"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/yesBackPressedMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="yes"
+        app:layout_constraintBottom_toBottomOf="@id/backPressMenu"
+        app:layout_constraintTop_toBottomOf="@id/backPressMenuText"
+        app:layout_constraintLeft_toLeftOf="@id/backPressMenu"
+        app:layout_constraintRight_toLeftOf="@id/NoBackPressedMenu"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/NoBackPressedMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="no"
+        app:layout_constraintBottom_toBottomOf="@id/backPressMenu"
+        app:layout_constraintTop_toBottomOf="@id/backPressMenuText"
+        app:layout_constraintRight_toRightOf="@id/backPressMenu"
+        app:layout_constraintLeft_toRightOf="@id/yesBackPressedMenu"
+        android:visibility="gone"/>
+
+    <!--Miscellaneous-->
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enemyImage"
+        />
+
+    <TextView
+        android:id="@+id/turn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="currentTurn"
+        app:layout_constraintTop_toBottomOf="@id/backButton"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/red"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

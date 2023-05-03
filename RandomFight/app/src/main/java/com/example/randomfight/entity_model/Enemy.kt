@@ -1,13 +1,21 @@
 package com.example.randomfight.entity_model
 
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 import java.io.Serializable
 
-class Enemy : Serializable{
-    var name:String? = null
-    var img:String? = null
+data class Enemy (
+    var name:String,
+    var img:String,
+    var level:String
+)
 
-    constructor(){
-        this.name = null
-        this.img = null
-    }
+interface enemyAPI{
+    @GET("digimon")
+    fun getAllEnemy(): Call<List<Enemy>>
+
+    @GET("digimon/name/{name}")
+    fun getEnemyByName(@Path("name")name:String?) : Call<Enemy>
 }
