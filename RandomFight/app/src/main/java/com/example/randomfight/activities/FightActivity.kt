@@ -55,39 +55,6 @@ class FightActivity : AppCompatActivity() {
         findViewById<Button>(R.id.backButton).setOnClickListener{
             goBackConfirmation()
         }
-        //gotta get value of player first but I'll do that later when database is implemented
-
-        /*val playerHealthView = findViewById<TextView>(R.id.playerHp)
-        val playerMaxHealthView = findViewById<TextView>(R.id.playerMaxHp)
-        val playerAttackView = findViewById<TextView>(R.id.playerAP)
-        val playerDefenseView = findViewById<TextView>(R.id.playerDefense)
-        val playerSpeedView = findViewById<TextView>(R.id.playerSpeed)
-        val playerHealingView = findViewById<TextView>(R.id.playerHealing)
-        val playerLevelView = findViewById<TextView>(R.id.playerLevel)
-
-        playerHealthView.text = playerStats.health.toString()
-        playerMaxHealthView.text = "/" + "${playerStats.health}"
-        playerAttackView.text = playerStats.attack.toString()
-        playerDefenseView.text = playerStats.defense.toString()
-        playerSpeedView.text = playerStats.speed.toString()
-        playerHealingView.text = playerStats.healing.toString()
-        playerLevelView.text = " LV:" + "${playerStats.level}"
-
-
-        val firstEnemyHealthView = findViewById<TextView>(R.id.enemyHp)
-        val firstEnemyMaxHealthView = findViewById<TextView>(R.id.enemyMaxHp)
-        val firstEnemyAttackView = findViewById<TextView>(R.id.enemyAP)
-        val firstEnemyDefenseView = findViewById<TextView>(R.id.enemyDefense)
-        val firstEnemySpeedView = findViewById<TextView>(R.id.enemySpeed)
-        val firstEnemyHealingView = findViewById<TextView>(R.id.enemyHealing)
-
-        firstEnemyHealthView.text = firstEnemyStats.health.toString()
-        firstEnemyMaxHealthView.text = "/" + "${firstEnemyStats.health}"
-        firstEnemyAttackView.text = firstEnemyStats.attack.toString()
-        firstEnemyDefenseView.text = firstEnemyStats.defense.toString()
-        firstEnemySpeedView.text = firstEnemyStats.speed.toString()
-        firstEnemyHealingView.text = firstEnemyStats.healing.toString()*/
-        // will upgrade with databind later
 
         initializeView(playerStats,firstEnemyStats)
 //        val turn = whoGoesFirst(playerStats.speed,firstEnemyStats.speed)
@@ -195,24 +162,27 @@ class FightActivity : AppCompatActivity() {
         val healUpButton = findViewById<Button>(R.id.healingBoostButton)
 
         attackButton.setOnClickListener {
-            val damage = RNG().attack(
-                playerStats.speed,
-                firstEnemyStats.speed,
-                playerStats.attack,
-                firstEnemyStats.defense
-            )
-            if (damage != null) {
-                if (damage > 0) {
-                    if (damage < firstEnemyStats.health) {
-                        firstEnemyStats.health -= damage
-                        Toast.makeText(this, "$damage DMG was dealt!", Toast.LENGTH_SHORT).show()
-                        updateView(playerStats, firstEnemyStats)
-                    } else {
-                        firstEnemyStats.health = 0
-                        Toast.makeText(this,"Enemy Was Defeated",Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
+            //val damage = RNG().attack(
+            //    playerStats.speed,
+            //    firstEnemyStats.speed,
+            //    playerStats.attack,
+            //    firstEnemyStats.defense
+            //)
+            //if (damage.hitOrNotHit == true && damage.damageDealt > 0) {
+            //    if (damage.damageDealt < firstEnemyStats.health) {
+            //        firstEnemyStats.health -= damage.damageDealt
+            //        Toast.makeText(this, "$damage DMG was dealt!", Toast.LENGTH_SHORT).show()
+            //        updateView(playerStats, firstEnemyStats)
+            //    } else {
+            //        firstEnemyStats.health = 0
+            //        Toast.makeText(this,"Enemy Was Defeated",Toast.LENGTH_SHORT).show()
+            //    }
+            //} else if (damage.hitOrNotHit == false) {
+            //    Toast.makeText(this,"The Attack Missed!",Toast.LENGTH_SHORT).show()
+            //} else {
+            //    Toast.makeText(this,"The Enemy was too tough no Damage was Dealt!", Toast.LENGTH_SHORT).show()
+            //}
+            playerAttack()
         }
     }
 
@@ -278,5 +248,28 @@ class FightActivity : AppCompatActivity() {
         firstEnemyDefenseView.text = enemyStats.defense.toString()
         firstEnemySpeedView.text = enemyStats.speed.toString()
         firstEnemyHealingView.text = enemyStats.healing.toString()
+    }
+
+    fun playerAttack() {
+        val damage = RNG().attack(
+            playerStats.speed,
+            firstEnemyStats.speed,
+            playerStats.attack,
+            firstEnemyStats.defense
+        )
+        if (damage.hitOrNotHit == true && damage.damageDealt > 0) {
+            if (damage.damageDealt < firstEnemyStats.health) {
+                firstEnemyStats.health -= damage.damageDealt
+                Toast.makeText(this, "$damage DMG was dealt!", Toast.LENGTH_SHORT).show()
+                updateView(playerStats, firstEnemyStats)
+            } else {
+                firstEnemyStats.health = 0
+                Toast.makeText(this,"Enemy Was Defeated",Toast.LENGTH_SHORT).show()
+            }
+        } else if (damage.hitOrNotHit == false) {
+            Toast.makeText(this,"The Attack Missed!",Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this,"The Enemy was too tough no Damage was Dealt!", Toast.LENGTH_SHORT).show()
+        }
     }
 }

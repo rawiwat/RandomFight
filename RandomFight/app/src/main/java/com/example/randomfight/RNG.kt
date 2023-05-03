@@ -1,7 +1,9 @@
 package com.example.randomfight
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.ui.Modifier
+import com.example.randomfight.activities.DMGcalc
 import com.example.randomfight.activities.FightActivity
 import com.example.randomfight.entity_model.Enemy
 import com.example.randomfight.entity_model.EnemyStats
@@ -33,19 +35,19 @@ class RNG {
         return result
     }
 
-    fun attack(attackerSpeed:Int,targetSpeed:Int,attackerATK:Int,targetDefense:Int):Int? {
-        var damageDealt:Int? = null
-        var possibleOutcomeStepOne = listOf("hit","not hit")
-        val randomizingOutCome = mutableListOf<String>()
-        var hitOrNot:String = ""
+    fun attack(attackerSpeed:Int,targetSpeed:Int,attackerATK:Int,targetDefense:Int):DMGcalc {
+        var result = DMGcalc(false, 0)
+        var possibleOutcomeStepOne = listOf(true,false)
+        val randomizingOutCome = mutableListOf<Boolean>()
+        var hitOrNot:Boolean
         if (attackerSpeed > targetSpeed) {
             for (outcome in possibleOutcomeStepOne) {
-                val random = if(outcome == "hit") 5 else 2
+                val random = if(outcome == true) 5 else 2
                 repeat(random){ randomizingOutCome.add(outcome) }
             }
         } else if (targetSpeed > attackerSpeed) {
             for (outcome in possibleOutcomeStepOne) {
-                val random = if(outcome == "not hit") 4 else 3
+                val random = if(outcome == false) 4 else 3
                 repeat(random){ randomizingOutCome.add(outcome) }
             }
         } else {
@@ -55,16 +57,21 @@ class RNG {
         }
 
         hitOrNot = randomizingOutCome.random()
-        if (hitOrNot == "not hit") {
-            Toast.makeText(FightActivity(), "The Attack Missed!", Toast.LENGTH_SHORT).show()
-        } else if (attackerATK > targetDefense){
-            val powerGap = attackerATK - targetDefense
-            val randomBonusDamage = Random.nextInt(powerGap*3)
-            damageDealt = attackerATK + randomBonusDamage
-        } else if (attackerATK == targetDefense) {
-            damageDealt = attackerATK
+        if (hitOrNot == true) {
+            if (attackerATK > targetDefense) {
+                val powerGap = attackerATK - targetDefense
+                val randomBonusDamage = Random.nextInt(powerGap)
+                result.damageDealt = attackerATK + randomBonusDamage
+            } else if (attackerATK < targetDefense) {
+                val powerGap = targetDefense - attackerATK
+                val randomReducedDamage = Random.nextInt(powerGap)
+                result.damageDealt = attackerATK - randomReducedDamage
+                if (result.damageDealt < 0) {
+                    result.damageDealt = 0
+                }
+            }
         }
 
-        return damageDealt
+        return result
     }
 }
