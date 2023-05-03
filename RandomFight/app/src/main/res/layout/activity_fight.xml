@@ -159,11 +159,11 @@
         android:layout_height="300dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@color/purple_200"/>
+        android:src="@drawable/player_image"/>
 
     <ProgressBar
         android:id="@+id/playerHpBar"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/playerImage"
         app:layout_constraintRight_toRightOf="parent"
@@ -264,8 +264,17 @@
         android:hint="You"
         app:layout_constraintTop_toTopOf="@id/playerImage"
         app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintRight_toLeftOf="@id/playerLevel"
+        />
+
+    <TextView
+        android:id="@+id/playerLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/playerImage"
+        app:layout_constraintLeft_toRightOf="@id/you"
         app:layout_constraintRight_toLeftOf="@id/playerHp"
-        android:layout_marginLeft="50dp"
+        android:hint=" LV"
         />
 
     <TextView
@@ -273,10 +282,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/playerImage"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/playerHp"
+        app:layout_constraintRight_toRightOf="parent"
         android:hint="Max Hp"
-        android:layout_marginRight="50dp"
         />
 
     <TextView
@@ -285,11 +293,98 @@
         android:layout_height="wrap_content"
         android:hint="Hp"
         app:layout_constraintTop_toTopOf="@id/playerImage"
-        app:layout_constraintLeft_toRightOf="@id/you"
         app:layout_constraintRight_toLeftOf="@id/playerMaxHp"
+        app:layout_constraintLeft_toRightOf="@id/playerLevel"
         />
 
+    <Button
+        android:id="@+id/attackButoon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Attack"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintTop_toBottomOf="@id/playerHealing"
+        app:layout_constraintRight_toLeftOf="@id/defendButton"
+        app:layout_constraintBottom_toTopOf="@id/speedButton"
+        />
 
+    <Button
+        android:id="@+id/defendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Defend"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/playerHealing"
+        app:layout_constraintLeft_toRightOf="@id/attackButoon"
+        app:layout_constraintBottom_toTopOf="@id/healButton"
+        />
+
+    <Button
+        android:id="@+id/speedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SPEED UP"
+        app:layout_constraintTop_toBottomOf="@id/attackButoon"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintRight_toLeftOf="@id/healButton"
+        app:layout_constraintBottom_toTopOf="@id/attackBoostButton"
+        />
+
+    <Button
+        android:id="@+id/healButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Heal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/defendButton"
+        app:layout_constraintLeft_toRightOf="@id/speedButton"
+        app:layout_constraintBottom_toTopOf="@id/healingBoostButton"
+        />
+
+    <Button
+        android:id="@+id/attackBoostButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="attack up"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintTop_toBottomOf="@id/speedButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/healingBoostButton"
+        />
+
+    <Button
+        android:id="@+id/healingBoostButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Heal Up"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/healButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/attackBoostButton"
+        />
+
+    <!--Miscellaneous-->
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enemyImage"
+        />
+
+    <TextView
+        android:id="@+id/turn"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:hint="currentTurn"
+        android:textSize="25dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/enemyHealing"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/playerImage"
+        android:background="@color/red"
+        />
 
     <!-- back press stuff here-->
     <ImageView
@@ -335,25 +430,5 @@
         app:layout_constraintRight_toRightOf="@id/backPressMenu"
         app:layout_constraintLeft_toRightOf="@id/yesBackPressedMenu"
         android:visibility="gone"/>
-
-    <!--Miscellaneous-->
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enemyImage"
-        />
-
-    <TextView
-        android:id="@+id/turn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="currentTurn"
-        app:layout_constraintTop_toBottomOf="@id/backButton"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/red"
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

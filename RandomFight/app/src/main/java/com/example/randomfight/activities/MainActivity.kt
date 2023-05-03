@@ -15,6 +15,7 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.main_activity)
 
         val fightButton = findViewById<Button>(R.id.fightButton)
+        val upgradeButton = findViewById<Button>(R.id.upgradeButton)
 
         fightButton.setOnClickListener {
             if (isNetworkConnected()) {
@@ -24,6 +25,16 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(this, "check yer internet", Toast.LENGTH_LONG).show()
             }
         }
+
+        upgradeButton.setOnClickListener {
+            if (isNetworkConnected()) {
+                val intent = Intent(this, UpgradeActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "check yer internet", Toast.LENGTH_LONG).show()
+            }
+        }
+
     }
 
     private fun isNetworkConnected(): Boolean {

@@ -4,7 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
-import android.os.AsyncTask
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -26,6 +26,7 @@ import com.example.randomfight.R
 import com.example.randomfight.RNG
 import com.example.randomfight.api.randomEnemyApi
 import com.example.randomfight.entity_model.Enemy
+import com.example.randomfight.entity_model.EnemyStats
 import com.example.randomfight.entity_model.Player
 import com.google.gson.Gson
 import retrofit2.Call
@@ -37,6 +38,14 @@ import java.util.concurrent.Executors
 
 class FightActivity : AppCompatActivity() {
 
+    enum class currentTurn {
+        PLAYER_TURN,
+        ENEMY_TURN
+    }
+
+    val playerStats = Player()
+    val firstEnemyStats = RNG().getRandomEnemyStats(1,1)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fight)
@@ -47,13 +56,14 @@ class FightActivity : AppCompatActivity() {
             goBackConfirmation()
         }
         //gotta get value of player first but I'll do that later when database is implemented
-        val playerStats = Player()
-        val playerHealthView = findViewById<TextView>(R.id.playerHp)
+
+        /*val playerHealthView = findViewById<TextView>(R.id.playerHp)
         val playerMaxHealthView = findViewById<TextView>(R.id.playerMaxHp)
         val playerAttackView = findViewById<TextView>(R.id.playerAP)
         val playerDefenseView = findViewById<TextView>(R.id.playerDefense)
         val playerSpeedView = findViewById<TextView>(R.id.playerSpeed)
         val playerHealingView = findViewById<TextView>(R.id.playerHealing)
+        val playerLevelView = findViewById<TextView>(R.id.playerLevel)
 
         playerHealthView.text = playerStats.health.toString()
         playerMaxHealthView.text = "/" + "${playerStats.health}"
@@ -61,8 +71,9 @@ class FightActivity : AppCompatActivity() {
         playerDefenseView.text = playerStats.defense.toString()
         playerSpeedView.text = playerStats.speed.toString()
         playerHealingView.text = playerStats.healing.toString()
+        playerLevelView.text = " LV:" + "${playerStats.level}"
 
-        val firstEnemyStats = RNG().getRandomEnemyStats(1,1)
+
         val firstEnemyHealthView = findViewById<TextView>(R.id.enemyHp)
         val firstEnemyMaxHealthView = findViewById<TextView>(R.id.enemyMaxHp)
         val firstEnemyAttackView = findViewById<TextView>(R.id.enemyAP)
@@ -75,8 +86,20 @@ class FightActivity : AppCompatActivity() {
         firstEnemyAttackView.text = firstEnemyStats.attack.toString()
         firstEnemyDefenseView.text = firstEnemyStats.defense.toString()
         firstEnemySpeedView.text = firstEnemyStats.speed.toString()
-        firstEnemyHealingView.text = firstEnemyStats.healing.toString()
+        firstEnemyHealingView.text = firstEnemyStats.healing.toString()*/
         // will upgrade with databind later
+
+        initializeView(playerStats,firstEnemyStats)
+//        val turn = whoGoesFirst(playerStats.speed,firstEnemyStats.speed)
+        val turnView = findViewById<TextView>(R.id.turn)
+        turnView.text = "Your Turn"
+        playerMove()
+        /*if (turn == currentTurn.PLAYER_TURN){
+
+        } else {
+            turnView.text = "Enemy's Turn"
+            enemyMove()
+        }*/
 
     }
 
@@ -128,7 +151,7 @@ class FightActivity : AppCompatActivity() {
     goBackConfirmation()
     }
 
-    fun goBackConfirmation(){
+    fun goBackConfirmation() {
         val backPressedMenu = findViewById<ImageView>(R.id.backPressMenu)
         val backPressedMenuText = findViewById<TextView>(R.id.backPressMenuText)
         val backPressedYes = findViewById<Button>(R.id.yesBackPressedMenu)
@@ -149,4 +172,111 @@ class FightActivity : AppCompatActivity() {
         }
     }
 
+    private fun whoGoesFirst(playerSpeed:Int,enemySpeed:Int):currentTurn {
+        val possibilities = listOf(currentTurn.PLAYER_TURN,currentTurn.ENEMY_TURN)
+        lateinit var result:currentTurn
+        if (playerSpeed > enemySpeed) {
+            result = possibilities[0]
+        } else if (enemySpeed > playerSpeed) {
+            result = possibilities[1]
+        } else {
+            result = possibilities.random()
+        }
+
+        return result
+    }
+
+    private fun playerMove () {
+        val attackButton = findViewById<Button>(R.id.attackButoon)
+        val defendButton = findViewById<Button>(R.id.defendButton)
+        val speedUpButton = findViewById<Button>(R.id.upgradeButton)
+        val healButton = findViewById<Button>(R.id.healButton)
+        val attackUpButton = findViewById<Button>(R.id.attackBoostButton)
+        val healUpButton = findViewById<Button>(R.id.healingBoostButton)
+
+        attackButton.setOnClickListener {
+            val damage = RNG().attack(
+                playerStats.speed,
+                firstEnemyStats.speed,
+                playerStats.attack,
+                firstEnemyStats.defense
+            )
+            if (damage != null) {
+                if (damage > 0) {
+                    if (damage < firstEnemyStats.health) {
+                        firstEnemyStats.health -= damage
+                        Toast.makeText(this, "$damage DMG was dealt!", Toast.LENGTH_SHORT).show()
+                        updateView(playerStats, firstEnemyStats)
+                    } else {
+                        firstEnemyStats.health = 0
+                        Toast.makeText(this,"Enemy Was Defeated",Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun enemyMove() {
+        RNG().enemyRandomlyChoseMove()
+    }
+
+    private fun initializeView (playerStats:Player,enemyStats: EnemyStats) {
+        val playerHealthView = findViewById<TextView>(R.id.playerHp)
+        val playerMaxHealthView = findViewById<TextView>(R.id.playerMaxHp)
+        val playerAttackView = findViewById<TextView>(R.id.playerAP)
+        val playerDefenseView = findViewById<TextView>(R.id.playerDefense)
+        val playerSpeedView = findViewById<TextView>(R.id.playerSpeed)
+        val playerHealingView = findViewById<TextView>(R.id.playerHealing)
+        val playerLevelView = findViewById<TextView>(R.id.playerLevel)
+
+        playerHealthView.text = playerStats.health.toString()
+        playerMaxHealthView.text = "/" + "${playerStats.health}"
+        playerAttackView.text = playerStats.attack.toString()
+        playerDefenseView.text = playerStats.defense.toString()
+        playerSpeedView.text = playerStats.speed.toString()
+        playerHealingView.text = playerStats.healing.toString()
+        playerLevelView.text = " LV:" + "${playerStats.level}"
+
+        val firstEnemyHealthView = findViewById<TextView>(R.id.enemyHp)
+        val firstEnemyMaxHealthView = findViewById<TextView>(R.id.enemyMaxHp)
+        val firstEnemyAttackView = findViewById<TextView>(R.id.enemyAP)
+        val firstEnemyDefenseView = findViewById<TextView>(R.id.enemyDefense)
+        val firstEnemySpeedView = findViewById<TextView>(R.id.enemySpeed)
+        val firstEnemyHealingView = findViewById<TextView>(R.id.enemyHealing)
+
+        firstEnemyHealthView.text = enemyStats.health.toString()
+        firstEnemyMaxHealthView.text = "/" + "${enemyStats.health}"
+        firstEnemyAttackView.text = enemyStats.attack.toString()
+        firstEnemyDefenseView.text = enemyStats.defense.toString()
+        firstEnemySpeedView.text = enemyStats.speed.toString()
+        firstEnemyHealingView.text = enemyStats.healing.toString()
+    }
+
+    private fun updateView (playerStats:Player,enemyStats: EnemyStats) {
+        val playerHealthView = findViewById<TextView>(R.id.playerHp)
+        val playerAttackView = findViewById<TextView>(R.id.playerAP)
+        val playerDefenseView = findViewById<TextView>(R.id.playerDefense)
+        val playerSpeedView = findViewById<TextView>(R.id.playerSpeed)
+        val playerHealingView = findViewById<TextView>(R.id.playerHealing)
+        val playerLevelView = findViewById<TextView>(R.id.playerLevel)
+
+        playerHealthView.text = playerStats.health.toString()
+        playerAttackView.text = playerStats.attack.toString()
+        playerDefenseView.text = playerStats.defense.toString()
+        playerSpeedView.text = playerStats.speed.toString()
+        playerHealingView.text = playerStats.healing.toString()
+        playerLevelView.text = " LV:" + "${playerStats.level}"
+
+        val firstEnemyHealthView = findViewById<TextView>(R.id.enemyHp)
+        val firstEnemyAttackView = findViewById<TextView>(R.id.enemyAP)
+        val firstEnemyDefenseView = findViewById<TextView>(R.id.enemyDefense)
+        val firstEnemySpeedView = findViewById<TextView>(R.id.enemySpeed)
+        val firstEnemyHealingView = findViewById<TextView>(R.id.enemyHealing)
+
+        firstEnemyHealthView.text = enemyStats.health.toString()
+        firstEnemyAttackView.text = enemyStats.attack.toString()
+        firstEnemyDefenseView.text = enemyStats.defense.toString()
+        firstEnemySpeedView.text = enemyStats.speed.toString()
+        firstEnemyHealingView.text = enemyStats.healing.toString()
+    }
 }

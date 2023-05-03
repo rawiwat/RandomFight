@@ -6,4 +6,223 @@
     android:layout_height="match_parent"
     tools:context=".activities.UpgradeActivity">
 
+    <ImageView
+        android:id="@+id/playerImage"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/player_image"/>
+
+    <TextView
+        android:id="@+id/healthInUpgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Current HP"
+        app:layout_constraintTop_toTopOf="@id/playerImage"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintBottom_toTopOf="@id/attackInUpgrade"
+        android:background="@color/green"/>
+
+    <TextView
+        android:id="@+id/attackInUpgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Current ATK"
+        app:layout_constraintTop_toBottomOf="@id/healthInUpgrade"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintBottom_toTopOf="@id/defenseInUpgrade"
+        android:background="@color/red"
+        />
+
+    <TextView
+        android:id="@+id/defenseInUpgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Current DEF"
+        app:layout_constraintTop_toBottomOf="@id/attackInUpgrade"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintBottom_toTopOf="@id/speedInUpgrade"
+        android:background="@color/grey"
+        />
+
+    <TextView
+        android:id="@+id/speedInUpgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Current SP"
+        app:layout_constraintTop_toBottomOf="@id/defenseInUpgrade"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintBottom_toTopOf="@id/healingInUpgrade"
+        android:background="@color/yellow"
+        />
+
+    <TextView
+        android:id="@+id/healingInUpgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Current HL"
+        app:layout_constraintTop_toBottomOf="@id/speedInUpgrade"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerImage"
+        app:layout_constraintBottom_toBottomOf="@id/playerImage"
+        android:background="@color/magenta"
+        />
+
+    <TextView
+        android:id="@+id/statsPoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Stats Point Counter"
+        app:layout_constraintTop_toBottomOf="@id/playerImage"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/updrageLayout"
+        android:background="@color/teal_200"
+        app:layout_constraintRight_toLeftOf="@id/backButtonInUpgrade"
+        />
+
+    <Button
+        android:id="@+id/backButtonInUpgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="back"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/statsPoint"
+        app:layout_constraintLeft_toRightOf="@id/statsPoint"
+        app:layout_constraintBottom_toBottomOf="@id/statsPoint"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/updrageLayout"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        >
+
+        <Button
+            android:id="@+id/healthUpgradeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upgrade"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/attackUpgradeButton"
+            app:layout_constraintBottom_toTopOf="@id/defenseUpgradeButton"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HP \n +50"
+            app:layout_constraintTop_toTopOf="@id/healthUpgradeButton"
+            app:layout_constraintRight_toLeftOf="@id/healthUpgradeButton"
+            app:layout_constraintBottom_toBottomOf="@id/healthUpgradeButton"
+            />
+
+        <Button
+            android:id="@+id/attackUpgradeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upgrade"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/healingUpgradeButton"
+            app:layout_constraintBottom_toTopOf="@id/speedUpgradeButton"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ATK \n +10"
+            app:layout_constraintTop_toTopOf="@id/attackUpgradeButton"
+            app:layout_constraintRight_toLeftOf="@id/attackUpgradeButton"
+            app:layout_constraintBottom_toBottomOf="@id/attackUpgradeButton"
+            />
+
+        <Button
+            android:id="@+id/defenseUpgradeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upgrade"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/healthUpgradeButton"
+            app:layout_constraintBottom_toTopOf="@id/healingUpgradeButton"
+            app:layout_constraintRight_toLeftOf="@id/speedUpgradeButton"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DEF \n +10"
+            app:layout_constraintTop_toTopOf="@id/defenseUpgradeButton"
+            app:layout_constraintRight_toLeftOf="@id/defenseUpgradeButton"
+            app:layout_constraintBottom_toBottomOf="@id/defenseUpgradeButton"
+            />
+
+        <Button
+            android:id="@+id/speedUpgradeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upgrade"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/attackUpgradeButton"
+            app:layout_constraintLeft_toRightOf="@id/defenseUpgradeButton"
+            app:layout_constraintBottom_toTopOf="@id/summitUpgradeButton"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SP \n +20"
+            app:layout_constraintTop_toTopOf="@id/speedUpgradeButton"
+            app:layout_constraintRight_toLeftOf="@id/speedUpgradeButton"
+            app:layout_constraintBottom_toBottomOf="@id/speedUpgradeButton"
+            />
+
+        <Button
+            android:id="@+id/healingUpgradeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upgrade"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/defenseUpgradeButton"
+            app:layout_constraintRight_toLeftOf="@id/summitUpgradeButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HL \n +5"
+            app:layout_constraintTop_toTopOf="@id/healingUpgradeButton"
+            app:layout_constraintRight_toLeftOf="@id/healingUpgradeButton"
+            app:layout_constraintBottom_toBottomOf="@id/healingUpgradeButton"
+            />
+
+        <Button
+            android:id="@+id/summitUpgradeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="summit"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/speedUpgradeButton"
+            app:layout_constraintLeft_toRightOf="@id/healingUpgradeButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Summit \n Upgrade"
+            app:layout_constraintTop_toTopOf="@id/summitUpgradeButton"
+            app:layout_constraintRight_toLeftOf="@id/summitUpgradeButton"
+            app:layout_constraintBottom_toBottomOf="@id/summitUpgradeButton"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

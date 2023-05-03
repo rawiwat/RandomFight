@@ -13,7 +13,7 @@ class Player : Serializable {
     var speed:Int = 20
     var defense:Int = 10
     var healing:Int = 5
-    var potential:Int = 1
+    //var potential:Int = 1
     var statsPoint:Int = 0
     @PrimaryKey(autoGenerate = true)@NonNull
     var id:Int = 0
@@ -25,7 +25,7 @@ class Player : Serializable {
         this.speed
         this.defense
         this.healing
-        this.potential
+    //    this.potential
         this.statsPoint
         this.id
     }

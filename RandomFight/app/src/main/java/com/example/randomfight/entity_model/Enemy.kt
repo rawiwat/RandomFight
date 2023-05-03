@@ -15,7 +15,4 @@ data class Enemy (
 interface enemyAPI{
     @GET("digimon")
     fun getAllEnemy(): Call<List<Enemy>>
-
-    @GET("digimon/name/{name}")
-    fun getEnemyByName(@Path("name")name:String?) : Call<Enemy>
 }

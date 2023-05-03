@@ -35,21 +35,5 @@ class randomEnemyApi {
         return countriesAPI.getAllEnemy()
     }
 
-    fun getRandomDigimon(name:String?): Call<Enemy>{
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-
-        val countriesAPI = retrofit.create(enemyAPI::class.java)
-
-        return countriesAPI.getEnemyByName(name)
-    }
-
-
 }
 
