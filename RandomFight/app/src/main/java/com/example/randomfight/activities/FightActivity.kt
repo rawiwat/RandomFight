@@ -14,6 +14,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -89,9 +90,12 @@ class FightActivity : AppCompatActivity() {
                     val executioner = Executors.newSingleThreadExecutor()
                     val handler = Handler(Looper.getMainLooper())
                     result.let {
+                        val enemyName = findViewById<TextView>(R.id.enemyName)
+                        enemyName.text = it.name
                         executioner.execute {
                             val imageUrl = it.img
                             try {
+                                val loading = findViewById<ProgressBar>(R.id.enemyImageLoading)
                                 val enemyImage = findViewById<ImageView>(R.id.enemyImage)
                                 val decoder = java.net.URL(imageUrl).openStream()
                                 val enemyImageBitmap: Bitmap = BitmapFactory.decodeStream(decoder)
@@ -104,6 +108,7 @@ class FightActivity : AppCompatActivity() {
                                 canvas.drawBitmap(enemyImageBitmap, 0f, 0f, null)
                                 handler.post {
                                     enemyImage.setImageBitmap(enemyImageBitmap)
+                                    loading.visibility = GONE
                                 }
                             } catch (e:java.lang.Exception) {
                                 e.printStackTrace()

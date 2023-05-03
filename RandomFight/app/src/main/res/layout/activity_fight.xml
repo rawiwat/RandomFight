@@ -16,6 +16,16 @@
         />
 
     <ProgressBar
+        android:id="@+id/enemyImageLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="@id/enemyImage"
+        app:layout_constraintTop_toTopOf="@id/enemyImage"
+        app:layout_constraintBottom_toBottomOf="@id/enemyImage"
+        app:layout_constraintLeft_toLeftOf="@id/enemyImage"
+        />
+
+    <ProgressBar
         android:id="@+id/enemyHpBar"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
