@@ -281,6 +281,25 @@ class FightActivity : AppCompatActivity() {
             Toast.makeText(this,"Enemy's Speed Goes Up by ${buffedSpeed - preBuffedSpeed}",Toast.LENGTH_SHORT).show()
         }
 
+        if (enemyRandomMove == enemyMoveset.HEAL){
+            val currentHealth = enemyStats.health
+            val maxHealthView = findViewById<TextView>(R.id.enemyMaxHp)
+            val maxHealth = maxHealthView.text.toString().toInt()
+            val damage = maxHealth - currentHealth
+            if (damage >= enemyStats.healing && damage != 0) {
+                enemyStats.health += enemyStats.healing
+                Toast.makeText(this, "Enemy healed ${enemyStats.healing} Health!", Toast.LENGTH_SHORT).show()
+            } else {
+                enemyStats.health = maxHealth
+                Toast.makeText(this, "Enemy healed ${damage} Health!", Toast.LENGTH_SHORT).show()
+            }
+            if (currentHealth == maxHealth) {
+                Toast.makeText(this, "Enemy healed but it's Health is already full!", Toast.LENGTH_SHORT).show()
+            }
+            enemyMove()
+            updateView(playerStats, enemyStats)
+        }
+
         if (enemyRandomMove == enemyMoveset.ATTACKUP){
             val preBuffedAttack = enemyStats.attack
             val buffedAttack = enemyStats.attack * 2
@@ -296,6 +315,7 @@ class FightActivity : AppCompatActivity() {
             updateView(playerStats,enemyStats)
             Toast.makeText(this,"Enemy's Healing Power Goes Up by ${buffedHealing - preBuffedHealing}",Toast.LENGTH_SHORT).show()
         }
+        playerMove()
     }
 
     private fun initialize (playerStats:Player,enemyStats: EnemyStats) {
