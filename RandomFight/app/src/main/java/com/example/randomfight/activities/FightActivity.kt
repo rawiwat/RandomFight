@@ -221,9 +221,8 @@ class FightActivity : AppCompatActivity() {
             val preBuffedAttack = playerStats.attack
             val buffedAttack = playerStats.attack * 2
             playerStats.attack = buffedAttack
-            //shiftTurn()
             updateView(playerStats,enemyStats)
-            Toast.makeText(this,"Your Attack Power Goes Up by ${buffedAttack - preBuffedAttack}",Toast.LENGTH_SHORT).show()
+            showToastThenChangeTurn("Your Attack Power Goes Up by ${buffedAttack - preBuffedAttack}")
         }
 
         healUpButton.setOnClickListener {
@@ -231,9 +230,8 @@ class FightActivity : AppCompatActivity() {
             val preBuffedHealing = playerStats.healing
             val buffedHealing = playerStats.healing * 2
             playerStats.healing = buffedHealing
-            //shiftTurn()
             updateView(playerStats,enemyStats)
-            Toast.makeText(this,"Your Healing Power Goes Up by ${buffedHealing - preBuffedHealing}",Toast.LENGTH_SHORT).show()
+            showToastThenChangeTurn("Your Healing Power Goes Up by ${buffedHealing - preBuffedHealing}")
         }
 
     }
@@ -531,6 +529,6 @@ class FightActivity : AppCompatActivity() {
         toasty.show()
         Handler().postDelayed({
             shiftTurn()
-        }, toasty.duration.toLong())
+        }, 3000)
     }
 }
