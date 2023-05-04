@@ -151,6 +151,15 @@
         app:layout_constraintRight_toLeftOf="@id/enemyMaxHp"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        app:layout_constraintTop_toTopOf="@id/enemyHp"
+        app:layout_constraintBottom_toBottomOf="@id/enemyMaxHp"
+        app:layout_constraintLeft_toRightOf="@id/enemyHp"
+        app:layout_constraintRight_toLeftOf="@id/enemyMaxHp"/>
+
     <!--Player Layout-->
 
     <ImageView
@@ -288,6 +297,15 @@
         />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        app:layout_constraintTop_toTopOf="@id/playerHp"
+        app:layout_constraintBottom_toBottomOf="@id/playerMaxHp"
+        app:layout_constraintLeft_toRightOf="@id/playerHp"
+        app:layout_constraintRight_toLeftOf="@id/playerMaxHp"/>
+
+    <TextView
         android:id="@+id/playerHp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -298,7 +316,7 @@
         />
 
     <Button
-        android:id="@+id/attackButoon"
+        android:id="@+id/attackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Attack"
@@ -315,7 +333,7 @@
         android:text="Defend"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/playerHealing"
-        app:layout_constraintLeft_toRightOf="@id/attackButoon"
+        app:layout_constraintLeft_toRightOf="@id/attackButton"
         app:layout_constraintBottom_toTopOf="@id/healButton"
         />
 
@@ -324,7 +342,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SPEED UP"
-        app:layout_constraintTop_toBottomOf="@id/attackButoon"
+        app:layout_constraintTop_toBottomOf="@id/attackButton"
         app:layout_constraintLeft_toRightOf="@id/playerImage"
         app:layout_constraintRight_toLeftOf="@id/healButton"
         app:layout_constraintBottom_toTopOf="@id/attackBoostButton"

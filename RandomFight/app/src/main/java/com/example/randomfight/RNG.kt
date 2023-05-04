@@ -28,9 +28,14 @@ class RNG {
         return enemyStats
     }
 
-    fun enemyRandomlyChoseMove():String {
+    fun enemyRandomlyChoseMove(): FightActivity.enemyMoveset {
         //will return action as a string like attack heal defend etc
-        val listOfPossibleMove = listOf("Attack","Heal","SpeedBoost","AttackBoost","DefenseBoost","HealingBoost")
+        val listOfPossibleMove = listOf(FightActivity.enemyMoveset.ATTACK,
+                                        FightActivity.enemyMoveset.DEFEND,
+                                        FightActivity.enemyMoveset.SPEEDUP,
+                                        FightActivity.enemyMoveset.HEAL,
+                                        FightActivity.enemyMoveset.ATTACKUP,
+                                        FightActivity.enemyMoveset.HEALUP)
         val result = listOfPossibleMove.random()
         return result
     }
@@ -42,12 +47,12 @@ class RNG {
         var hitOrNot:Boolean
         if (attackerSpeed > targetSpeed) {
             for (outcome in possibleOutcomeStepOne) {
-                val random = if(outcome == true) 5 else 2
+                val random = if(outcome == true) 5 else 1
                 repeat(random){ randomizingOutCome.add(outcome) }
             }
         } else if (targetSpeed > attackerSpeed) {
             for (outcome in possibleOutcomeStepOne) {
-                val random = if(outcome == false) 4 else 3
+                val random = if(outcome == true) 5 else 2
                 repeat(random){ randomizingOutCome.add(outcome) }
             }
         } else {
@@ -58,6 +63,7 @@ class RNG {
 
         hitOrNot = randomizingOutCome.random()
         if (hitOrNot == true) {
+            result.hitOrNotHit = true
             if (attackerATK > targetDefense) {
                 val powerGap = attackerATK - targetDefense
                 val randomBonusDamage = Random.nextInt(powerGap)
