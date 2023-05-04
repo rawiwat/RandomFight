@@ -145,36 +145,17 @@ class FightActivity : AppCompatActivity() {
     }
 
     private fun playerMove () {
-        //turn = currentTurn.PLAYER_TURN
         val attackButton = findViewById<Button>(R.id.attackButton)
         val defendButton = findViewById<Button>(R.id.defendButton)
         val speedUpButton = findViewById<Button>(R.id.speedButton)
         val healButton = findViewById<Button>(R.id.healButton)
         val attackUpButton = findViewById<Button>(R.id.attackBoostButton)
         val healUpButton = findViewById<Button>(R.id.healingBoostButton)
-        /*if (attackButton.visibility == GONE) {
-            attackButton.visibility = VISIBLE
-        }
-        if (defendButton.visibility == GONE){
-            defendButton.visibility = VISIBLE
-        }
-        if (speedUpButton.visibility == GONE){
-            speedUpButton.visibility = VISIBLE
-        }
-        if (healButton.visibility == GONE){
-            healButton.visibility = VISIBLE
-        }
-        if (attackUpButton.visibility == GONE){
-            attackUpButton.visibility = VISIBLE
-        }
-        if (healButton.visibility == GONE){
-            healUpButton.visibility = VISIBLE
-        }*/
+
         buttonViewOn()
         attackButton.setOnClickListener {
             buttonViewOff()
             playerAttack()
-            //shiftTurn()
             updateView(playerStats, enemyStats)
         }
 
@@ -202,11 +183,11 @@ class FightActivity : AppCompatActivity() {
             val maxHealthView = findViewById<TextView>(R.id.playerMaxHp)
             val maxHealth = maxHealthView.text.toString().toInt()
             val damage = maxHealth - currentHealth
-            if (damage >= playerStats.healing && damage != 0) {
+            if (damage >= playerStats.healing) {
                 playerStats.health += playerStats.healing
                 updateView(playerStats, enemyStats)
                 showToastThenChangeTurn("You healed ${playerStats.healing} Health!")
-            } else if (playerStats.healing > damage) {
+            } else if (damage != 0) {
                 playerStats.health = maxHealth
                 updateView(playerStats, enemyStats)
                 showToastThenChangeTurn("You healed ${damage} Health!")
@@ -237,31 +218,6 @@ class FightActivity : AppCompatActivity() {
     }
 
     private fun enemyMove() {
-        //turn = currentTurn.ENEMY_TURN
-        /*val attackButton = findViewById<Button>(R.id.attackButton)
-        val defendButton = findViewById<Button>(R.id.defendButton)
-        val speedUpButton = findViewById<Button>(R.id.speedButton)
-        val healButton = findViewById<Button>(R.id.healButton)
-        val attackUpButton = findViewById<Button>(R.id.attackBoostButton)
-        val healUpButton = findViewById<Button>(R.id.healingBoostButton)
-        if (attackButton.visibility == VISIBLE) {
-            attackButton.visibility = GONE
-        }
-        if (defendButton.visibility == VISIBLE){
-            defendButton.visibility = GONE
-        }
-        if (speedUpButton.visibility == VISIBLE){
-            speedUpButton.visibility = GONE
-        }
-        if (healButton.visibility == VISIBLE){
-            healButton.visibility = GONE
-        }
-        if (attackUpButton.visibility == VISIBLE){
-            attackUpButton.visibility = GONE
-        }
-        if (healButton.visibility == VISIBLE){
-            healUpButton.visibility = GONE
-        }*/
 
         val enemyRandomMove = RNG().enemyRandomlyChoseMove()
 
@@ -291,10 +247,10 @@ class FightActivity : AppCompatActivity() {
             val maxHealthView = findViewById<TextView>(R.id.enemyMaxHp)
             val maxHealth = maxHealthView.text.toString().toInt()
             val damage = maxHealth - currentHealth
-            if (damage >= enemyStats.healing && damage != 0) {
+            if (damage >= enemyStats.healing) {
                 enemyStats.health += enemyStats.healing
                 showToastThenChangeTurn("Enemy healed ${enemyStats.healing} Health!")
-            } else if (enemyStats.healing > damage){
+            } else if (damage != 0){
                 enemyStats.health = maxHealth
                 showToastThenChangeTurn("Enemy healed ${damage} Health!")
             } else if (currentHealth == maxHealth) {
@@ -317,6 +273,8 @@ class FightActivity : AppCompatActivity() {
     }
 
     private fun initialize (playerStats:Player,enemyStats: EnemyStats) {
+        Toast.makeText(this,"a New Enemy Arrived!",Toast.LENGTH_SHORT).show()
+
         val playerHealthView = findViewById<TextView>(R.id.playerHp)
         val playerMaxHealthView = findViewById<TextView>(R.id.playerMaxHp)
         val playerAttackView = findViewById<TextView>(R.id.playerAP)
@@ -352,11 +310,11 @@ class FightActivity : AppCompatActivity() {
         if (turn == currentTurn.PLAYER_TURN){
             turnView.text = "Your Turn"
             buttonViewOn()
-            playerMove()
+            Handler().postDelayed({playerMove()},3000)
         } else {
             turnView.text = "Enemy Turn"
             buttonViewOff()
-            enemyMove()
+            Handler().postDelayed({enemyMove()},3000)
         }
 
     }
@@ -413,7 +371,6 @@ class FightActivity : AppCompatActivity() {
                 //val enemyMaxHealthView = findViewById<TextView>(R.id.enemyMaxHp)
                 //enemyMaxHealthView.text = enemyMaxHealth.toString()
                 initialize(playerStats,enemyStats)
-                Toast.makeText(this,"a New Enemy Arrived!",Toast.LENGTH_SHORT).show()
             }
         } else if (damage.hitOrNotHit == false) {
             showToastThenChangeTurn("The Attack Missed!")
@@ -438,7 +395,9 @@ class FightActivity : AppCompatActivity() {
                 playerStats.health = 0
                 Toast.makeText(this,"You Got Defeated!",Toast.LENGTH_SHORT).show()
                 Toast.makeText(this,"GAME OVER!",Toast.LENGTH_SHORT).show()
-                gameOverManGameOver()
+                Handler().postDelayed({
+                    gameOverManGameOver()
+                }, 3000)
             }
         } else if (damage.hitOrNotHit == false) {
             showToastThenChangeTurn("You Dodged, The Attack Missed!")
