@@ -206,12 +206,11 @@ class FightActivity : AppCompatActivity() {
                 playerStats.health += playerStats.healing
                 updateView(playerStats, enemyStats)
                 showToastThenChangeTurn("You healed ${playerStats.healing} Health!")
-            } else {
+            } else if (playerStats.healing > damage) {
                 playerStats.health = maxHealth
                 updateView(playerStats, enemyStats)
                 showToastThenChangeTurn("You healed ${damage} Health!")
-            }
-            if (currentHealth == maxHealth) {
+            } else if (currentHealth == maxHealth) {
                 updateView(playerStats, enemyStats)
                 showToastThenChangeTurn("Your Health is already full!")
             }
@@ -272,18 +271,21 @@ class FightActivity : AppCompatActivity() {
             enemyAttack()
             //shiftTurn()
             updateView(playerStats, enemyStats)
+
         } else if (enemyRandomMove == enemyMoveset.DEFEND){
             val preBuffedDefense = enemyStats.defense
             val buffedDefense = enemyStats.defense * 2
             enemyStats.defense = buffedDefense
             updateView(playerStats,enemyStats)
             showToastThenChangeTurn("Enemy's Defense Goes Up by ${buffedDefense - preBuffedDefense}")
+
         } else if (enemyRandomMove == enemyMoveset.SPEEDUP){
             val preBuffedSpeed = enemyStats.speed
             val buffedSpeed = enemyStats.speed * 2
             enemyStats.speed = buffedSpeed
             updateView(playerStats,enemyStats)
             showToastThenChangeTurn("Enemy's Speed Goes Up by ${buffedSpeed - preBuffedSpeed}")
+
         } else if (enemyRandomMove == enemyMoveset.HEAL){
             val currentHealth = enemyStats.health
             val maxHealthView = findViewById<TextView>(R.id.enemyMaxHp)
@@ -292,12 +294,10 @@ class FightActivity : AppCompatActivity() {
             if (damage >= enemyStats.healing && damage != 0) {
                 enemyStats.health += enemyStats.healing
                 showToastThenChangeTurn("Enemy healed ${enemyStats.healing} Health!")
-            } else {
+            } else if (enemyStats.healing > damage){
                 enemyStats.health = maxHealth
                 showToastThenChangeTurn("Enemy healed ${damage} Health!")
-            }
-
-            if (currentHealth == maxHealth) {
+            } else if (currentHealth == maxHealth) {
                 showToastThenChangeTurn("Enemy healed but it's Health is already full!")
             }
 
