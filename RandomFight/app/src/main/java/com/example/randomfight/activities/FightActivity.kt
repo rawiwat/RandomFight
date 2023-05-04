@@ -46,6 +46,7 @@ class FightActivity : AppCompatActivity() {
     val playerStats = Player()
     var wave = 1
     var enemyStats = RNG().getRandomEnemyStats(1,wave)
+    var levelAtStartOfFight = playerStats.level
     lateinit var turn:currentTurn
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -350,9 +351,11 @@ class FightActivity : AppCompatActivity() {
         val turnView = findViewById<TextView>(R.id.turn)
         if (turn == currentTurn.PLAYER_TURN){
             turnView.text = "Your Turn"
+            buttonViewOn()
             playerMove()
         } else {
             turnView.text = "Enemy Turn"
+            buttonViewOff()
             enemyMove()
         }
 
@@ -435,6 +438,7 @@ class FightActivity : AppCompatActivity() {
                 playerStats.health = 0
                 Toast.makeText(this,"You Got Defeated!",Toast.LENGTH_SHORT).show()
                 Toast.makeText(this,"GAME OVER!",Toast.LENGTH_SHORT).show()
+                gameOverManGameOver()
             }
         } else if (damage.hitOrNotHit == false) {
             showToastThenChangeTurn("You Dodged, The Attack Missed!")
@@ -531,4 +535,22 @@ class FightActivity : AppCompatActivity() {
             shiftTurn()
         }, 3000)
     }
+     fun gameOverManGameOver(){
+         val levelGained = playerStats.level - levelAtStartOfFight
+         val statsPointGain = levelGained * wave
+         Player().level += levelGained
+         Player().statsPoint += statsPointGain
+
+         val gameOverMenu = findViewById<ImageView>(R.id.gameOverMenu)
+         val gameOverText = findViewById<TextView>(R.id.gameOverMenuText)
+         val gameOverButton = findViewById<Button>(R.id.gameOverButton)
+         gameOverMenu.visibility = VISIBLE
+         gameOverText.visibility = VISIBLE
+         gameOverButton.visibility = VISIBLE
+         gameOverText.text = "You Gain $levelGained Level and $statsPointGain Stats Point Go Back to Main Menu to Upgrade then Fight Again?"
+         gameOverButton.setOnClickListener {
+             val intent = Intent(this, MainActivity::class.java)
+             startActivity(intent)
+         }
+     }
 }
