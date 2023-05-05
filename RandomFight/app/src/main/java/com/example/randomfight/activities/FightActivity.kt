@@ -223,7 +223,6 @@ class FightActivity : AppCompatActivity() {
 
         if (enemyRandomMove == enemyMoveset.ATTACK){
             enemyAttack()
-            //shiftTurn()
             updateView(playerStats, enemyStats)
 
         } else if (enemyRandomMove == enemyMoveset.DEFEND){
@@ -245,13 +244,17 @@ class FightActivity : AppCompatActivity() {
             val maxHealthView = findViewById<TextView>(R.id.enemyMaxHp)
             val maxHealth = maxHealthView.text.toString().toInt()
             val damage = maxHealth - currentHealth
+
             if (damage >= enemyStats.healing) {
                 enemyStats.health += enemyStats.healing
+                updateView(playerStats, enemyStats)
                 showToastThenChangeTurn("Enemy healed ${enemyStats.healing} Health!")
-            } else if (damage != 0){
+            } else if (damage != 0) {
                 enemyStats.health = maxHealth
+                updateView(playerStats, enemyStats)
                 showToastThenChangeTurn("Enemy healed ${damage} Health!")
             } else if (currentHealth == maxHealth) {
+                updateView(playerStats, enemyStats)
                 showToastThenChangeTurn("Enemy healed but it's Health is already full!")
             }
 
@@ -489,7 +492,7 @@ class FightActivity : AppCompatActivity() {
 
      fun gameOverManGameOver(){
          val levelGained = playerStats.level - levelAtStartOfFight
-         val statsPointGain = levelGained * wave
+         val statsPointGain = levelGained * 2
          Player().level += levelGained
          Player().statsPoint += statsPointGain
 
