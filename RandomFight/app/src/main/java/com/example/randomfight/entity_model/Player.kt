@@ -21,10 +21,7 @@ class Player : Serializable {
     var speed:Int = 20
     var defense:Int = 10
     var healing:Int = 25
-    //var potential:Int = 1
     var statsPoint:Int = 10
-    @PrimaryKey(autoGenerate = true)@NonNull
-    var id:Int = 0
 
     constructor(){
         this.level
@@ -33,9 +30,22 @@ class Player : Serializable {
         this.speed
         this.defense
         this.healing
-    //    this.potential
         this.statsPoint
-        this.id
+    }
+
+    /*constructor(CSVString: String){
+        val attribute = CSVString.split(",")
+        this.level = attribute[0].toInt()
+        this.attack
+        this.health
+        this.speed
+        this.defense
+        this.healing
+        this.statsPoint =
+    }*/
+
+    fun toCSVString():String {
+        return "$level,$attack,$health,$speed,$defense,$healing,$statsPoint"
     }
 
 }

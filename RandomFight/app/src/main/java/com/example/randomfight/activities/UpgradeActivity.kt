@@ -1,5 +1,6 @@
 package com.example.randomfight.activities
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,9 +15,8 @@ import com.example.randomfight.entity_model.Player
 class UpgradeActivity : AppCompatActivity() {
 
     var progressSave = false
-    val intent = getIntent()
-    val player:Player = intent.getSerializableExtra("Player") as Player
-    val playerStats = getPlayerData(player)
+    val playerStats = Player()
+    val playerStatsBeforeUpgradeActivity = playerStats
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,10 +109,19 @@ class UpgradeActivity : AppCompatActivity() {
         backPressedNo.visibility = View.VISIBLE
         backPressedYes.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            if (playerStats != Player() && progressSave == true)
-                intent.putExtra("Player", playerStats)
-            startActivity(intent)
-        }
+            if (playerStats != Player() && progressSave == true) {
+                val playerCSVString = playerStats.toCSVString()
+                intent.putExtra("Player", playerCSVString)
+                setResult(Activity.RESULT_OK, intent)
+                startActivityForResult(intent, 1)
+            } else {
+                val playerCSVString = playerStatsBeforeUpgradeActivity.toCSVString()
+                intent.putExtra("Player", playerCSVString)
+                setResult(Activity.RESULT_OK, intent)
+                startActivityForResult(intent, 1)
+            }
+        }    
+
         backPressedNo.setOnClickListener {
             backPressedMenu.visibility = View.GONE
             backPressedMenuText.visibility = View.GONE
@@ -121,13 +130,20 @@ class UpgradeActivity : AppCompatActivity() {
         }
     }
 
-    fun getPlayerData(player: Player) :Player {
-        val playerData:Player
-        if (player != Player()){
-            playerData = player
-        } else {
-            playerData = Player()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            val player = data?.getStringExtra("Player")
+            player.let {
+                val playerCSVStringSplited = it?.split(",")
+                playerStats.level = playerCSVStringSplited?.get(0)?.toInt() ?: Player().level
+                playerStats.attack = playerCSVStringSplited?.get(1)?.toInt() ?: Player().attack
+                playerStats.health = playerCSVStringSplited?.get(2)?.toInt() ?: Player().health
+                playerStats.speed = playerCSVStringSplited?.get(3)?.toInt() ?: Player().speed
+                playerStats.defense = playerCSVStringSplited?.get(4)?.toInt() ?: Player().defense
+                playerStats.healing = playerCSVStringSplited?.get(5)?.toInt() ?: Player().healing
+                playerStats.statsPoint = playerCSVStringSplited?.get(6)?.toInt() ?: Player().statsPoint
+            }
         }
-        return playerData
     }
 }

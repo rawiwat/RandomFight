@@ -43,9 +43,7 @@ class FightActivity : AppCompatActivity() {
         HEALUP
     }
 
-    val intent = getIntent()
-    val player:Player = intent.getSerializableExtra("Player") as Player
-    val playerStats = getPlayerData(player)
+    val playerStats = Player()
     var wave = 1
     var enemyStats = RNG().getRandomEnemyStats(1,wave)
     var levelAtStartOfFight = playerStats.level
@@ -514,13 +512,20 @@ class FightActivity : AppCompatActivity() {
          }
      }
 
-    fun getPlayerData(player: Player) :Player {
-        val playerData:Player
-        if (player != Player()){
-            playerData = player
-        } else {
-            playerData = Player()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            val player = data?.getStringExtra("Player")
+            player.let {
+                val playerCSVStringSplited = it?.split(",")
+                playerStats.level = playerCSVStringSplited?.get(0)?.toInt() ?: Player().level
+                playerStats.attack = playerCSVStringSplited?.get(1)?.toInt() ?: Player().attack
+                playerStats.health = playerCSVStringSplited?.get(2)?.toInt() ?: Player().health
+                playerStats.speed = playerCSVStringSplited?.get(3)?.toInt() ?: Player().speed
+                playerStats.defense = playerCSVStringSplited?.get(4)?.toInt() ?: Player().defense
+                playerStats.healing = playerCSVStringSplited?.get(5)?.toInt() ?: Player().healing
+                playerStats.statsPoint = playerCSVStringSplited?.get(6)?.toInt() ?: Player().statsPoint
+            }
         }
-    return playerData
     }
 }
