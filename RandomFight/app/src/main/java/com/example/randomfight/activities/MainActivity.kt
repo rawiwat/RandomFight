@@ -13,6 +13,7 @@ import com.example.randomfight.entity_model.Player
 
 class MainActivity : ComponentActivity() {
 
+    lateinit var playerCSVString:String
     val playerStats = Player()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +22,6 @@ class MainActivity : ComponentActivity() {
 
         val fightButton = findViewById<Button>(R.id.fightButton)
         val upgradeButton = findViewById<Button>(R.id.upgradeButton)
-
 
         fightButton.setOnClickListener {
             if (isNetworkConnected()) {
@@ -52,18 +52,9 @@ class MainActivity : ComponentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            val player = data?.getStringExtra("Player")
-            player.let {
-                val playerCSVStringSplited = it?.split(",")
-                playerStats.level = playerCSVStringSplited?.get(0)?.toInt() ?: Player().level
-                playerStats.attack = playerCSVStringSplited?.get(1)?.toInt() ?: Player().attack
-                playerStats.health = playerCSVStringSplited?.get(2)?.toInt() ?: Player().health
-                playerStats.speed = playerCSVStringSplited?.get(3)?.toInt() ?: Player().speed
-                playerStats.defense = playerCSVStringSplited?.get(4)?.toInt() ?: Player().defense
-                playerStats.healing = playerCSVStringSplited?.get(5)?.toInt() ?: Player().healing
-                playerStats.statsPoint = playerCSVStringSplited?.get(6)?.toInt() ?: Player().statsPoint
-            }
+            playerCSVString = data?.getStringExtra("Player").toString()
         }
+        getPlayerStatsFromCSVString(playerCSVString,playerStats)
     }
 
     private fun isNetworkConnected(): Boolean {
@@ -77,4 +68,14 @@ class MainActivity : ComponentActivity() {
         //make it do nothing because you're not suppose to go back to anywhere in the main menu
     }
 
+    fun getPlayerStatsFromCSVString(playerCSVString:String , playerStats:Player) {
+        val playerCSVStringSplited = playerCSVString.split(",")
+        playerStats.level = playerCSVStringSplited.get(0).toInt()
+        playerStats.attack = playerCSVStringSplited.get(1).toInt()
+        playerStats.health = playerCSVStringSplited.get(2).toInt()
+        playerStats.speed = playerCSVStringSplited.get(3).toInt()
+        playerStats.defense = playerCSVStringSplited.get(4).toInt()
+        playerStats.healing = playerCSVStringSplited.get(5).toInt()
+        playerStats.statsPoint = playerCSVStringSplited.get(6).toInt()
+    }
 }

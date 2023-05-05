@@ -21,7 +21,7 @@ class Player : Serializable {
     var speed:Int = 20
     var defense:Int = 10
     var healing:Int = 25
-    var statsPoint:Int = 10
+    var statsPoint:Int = 2
 
     constructor(){
         this.level

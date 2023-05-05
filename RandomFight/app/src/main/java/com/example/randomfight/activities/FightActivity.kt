@@ -1,5 +1,6 @@
 package com.example.randomfight.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -48,6 +49,7 @@ class FightActivity : AppCompatActivity() {
     var enemyStats = RNG().getRandomEnemyStats(1,wave)
     var levelAtStartOfFight = playerStats.level
     lateinit var turn:CurrentTurn
+    lateinit var playerCSVString:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -496,8 +498,8 @@ class FightActivity : AppCompatActivity() {
      fun gameOverManGameOver(){
          val levelGained = playerStats.level - levelAtStartOfFight
          val statsPointGain = levelGained * 2
-         Player().level += levelGained
-         Player().statsPoint += statsPointGain
+
+         playerStats.statsPoint += statsPointGain
 
          val gameOverMenu = findViewById<ImageView>(R.id.gameOverMenu)
          val gameOverText = findViewById<TextView>(R.id.gameOverMenuText)
@@ -508,24 +510,19 @@ class FightActivity : AppCompatActivity() {
          gameOverText.text = "You Gain $levelGained Level and $statsPointGain Stats Point Go Back to Main Menu to Upgrade then Fight Again?"
          gameOverButton.setOnClickListener {
              val intent = Intent(this, MainActivity::class.java)
-             startActivity(intent)
+             val playerCSVString = playerStats.toCSVString()
+             intent.putExtra("Player", playerCSVString)
+             setResult(Activity.RESULT_OK, intent)
+             startActivityForResult(intent, 1)
          }
      }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            val player = data?.getStringExtra("Player")
-            player.let {
-                val playerCSVStringSplited = it?.split(",")
-                playerStats.level = playerCSVStringSplited?.get(0)?.toInt() ?: Player().level
-                playerStats.attack = playerCSVStringSplited?.get(1)?.toInt() ?: Player().attack
-                playerStats.health = playerCSVStringSplited?.get(2)?.toInt() ?: Player().health
-                playerStats.speed = playerCSVStringSplited?.get(3)?.toInt() ?: Player().speed
-                playerStats.defense = playerCSVStringSplited?.get(4)?.toInt() ?: Player().defense
-                playerStats.healing = playerCSVStringSplited?.get(5)?.toInt() ?: Player().healing
-                playerStats.statsPoint = playerCSVStringSplited?.get(6)?.toInt() ?: Player().statsPoint
-            }
+            playerCSVString = data?.getStringExtra("Player").toString()
         }
+        MainActivity().getPlayerStatsFromCSVString(playerCSVString,playerStats)
     }
+
 }

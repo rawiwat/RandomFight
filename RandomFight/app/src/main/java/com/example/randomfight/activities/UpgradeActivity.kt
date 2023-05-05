@@ -14,9 +14,11 @@ import com.example.randomfight.entity_model.Player
 
 class UpgradeActivity : AppCompatActivity() {
 
-    var progressSave = false
     val playerStats = Player()
+    var summitedStats = Player()
     val playerStatsBeforeUpgradeActivity = playerStats
+    var progressSave = false
+    lateinit var playerCSVString:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +59,7 @@ class UpgradeActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.summitUpgradeButton).setOnClickListener {
             progressSave = true
+            summitedStats = playerStats
             Toast.makeText(this, "Upgrade Saved", Toast.LENGTH_SHORT).show()
         }
 
@@ -109,8 +112,8 @@ class UpgradeActivity : AppCompatActivity() {
         backPressedNo.visibility = View.VISIBLE
         backPressedYes.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            if (playerStats != Player() && progressSave == true) {
-                val playerCSVString = playerStats.toCSVString()
+            if (progressSave == true) {
+                val playerCSVString = summitedStats.toCSVString()
                 intent.putExtra("Player", playerCSVString)
                 setResult(Activity.RESULT_OK, intent)
                 startActivityForResult(intent, 1)
@@ -120,7 +123,7 @@ class UpgradeActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_OK, intent)
                 startActivityForResult(intent, 1)
             }
-        }    
+        }
 
         backPressedNo.setOnClickListener {
             backPressedMenu.visibility = View.GONE
@@ -133,17 +136,9 @@ class UpgradeActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            val player = data?.getStringExtra("Player")
-            player.let {
-                val playerCSVStringSplited = it?.split(",")
-                playerStats.level = playerCSVStringSplited?.get(0)?.toInt() ?: Player().level
-                playerStats.attack = playerCSVStringSplited?.get(1)?.toInt() ?: Player().attack
-                playerStats.health = playerCSVStringSplited?.get(2)?.toInt() ?: Player().health
-                playerStats.speed = playerCSVStringSplited?.get(3)?.toInt() ?: Player().speed
-                playerStats.defense = playerCSVStringSplited?.get(4)?.toInt() ?: Player().defense
-                playerStats.healing = playerCSVStringSplited?.get(5)?.toInt() ?: Player().healing
-                playerStats.statsPoint = playerCSVStringSplited?.get(6)?.toInt() ?: Player().statsPoint
+                playerCSVString = data?.getStringExtra("Player").toString()
             }
+            MainActivity().getPlayerStatsFromCSVString(playerCSVString,playerStats)
         }
-    }
+
 }
