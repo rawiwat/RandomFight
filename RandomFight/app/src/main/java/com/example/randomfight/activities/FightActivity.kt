@@ -284,8 +284,11 @@ class FightActivity : AppCompatActivity() {
         val playerHealingView = findViewById<TextView>(R.id.playerHealing)
         val playerLevelView = findViewById<TextView>(R.id.playerLevel)
 
+        if (playerMaxHealthView.text == "Max Hp"){
+            playerMaxHealthView.text = playerStats.health.toString()
+        }
+        
         playerHealthView.text = playerStats.health.toString()
-        playerMaxHealthView.text = playerStats.health.toString()
         playerAttackView.text = playerStats.attack.toString()
         playerDefenseView.text = playerStats.defense.toString()
         playerSpeedView.text = playerStats.speed.toString()
