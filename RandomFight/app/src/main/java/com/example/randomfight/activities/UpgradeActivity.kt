@@ -13,17 +13,15 @@ import com.example.randomfight.R
 import com.example.randomfight.entity_model.Player
 
 class UpgradeActivity : AppCompatActivity() {
-
-    val playerStats = Player()
+    var playerCSVString:String = "1,10,50,20,10,25,2"
     var summitedStats = Player()
-    val playerStatsBeforeUpgradeActivity = playerStats
     var progressSave = false
-    lateinit var playerCSVString:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upgrade)
-
+        val playerStats = MainActivity().getPlayerStatsFromCSVString(playerCSVString)
+        val playerStatsBeforeUpgradeActivity = playerStats
         println(playerStats)
         updateView(playerStats)
 
@@ -118,7 +116,7 @@ class UpgradeActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_OK, intent)
                 startActivityForResult(intent, 1)
             } else {
-                val playerCSVString = playerStatsBeforeUpgradeActivity.toCSVString()
+                val playerCSVString = summitedStats.toCSVString()
                 intent.putExtra("Player", playerCSVString)
                 setResult(Activity.RESULT_OK, intent)
                 startActivityForResult(intent, 1)
@@ -138,7 +136,7 @@ class UpgradeActivity : AppCompatActivity() {
         if (requestCode == 1 && resultCode == RESULT_OK) {
                 playerCSVString = data?.getStringExtra("Player").toString()
             }
-            MainActivity().getPlayerStatsFromCSVString(playerCSVString,playerStats)
+
         }
 
 }

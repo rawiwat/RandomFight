@@ -13,8 +13,7 @@ import com.example.randomfight.entity_model.Player
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var playerCSVString:String
-    val playerStats = Player()
+    var playerCSVString:String = "1,10,50,20,10,25,2"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +21,7 @@ class MainActivity : ComponentActivity() {
 
         val fightButton = findViewById<Button>(R.id.fightButton)
         val upgradeButton = findViewById<Button>(R.id.upgradeButton)
+        val playerStats = getPlayerStatsFromCSVString(playerCSVString)
 
         fightButton.setOnClickListener {
             if (isNetworkConnected()) {
@@ -54,7 +54,6 @@ class MainActivity : ComponentActivity() {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             playerCSVString = data?.getStringExtra("Player").toString()
         }
-        getPlayerStatsFromCSVString(playerCSVString,playerStats)
     }
 
     private fun isNetworkConnected(): Boolean {
@@ -68,7 +67,8 @@ class MainActivity : ComponentActivity() {
         //make it do nothing because you're not suppose to go back to anywhere in the main menu
     }
 
-    fun getPlayerStatsFromCSVString(playerCSVString:String , playerStats:Player) {
+    fun getPlayerStatsFromCSVString(playerCSVString:String): Player {
+        val playerStats = Player()
         val playerCSVStringSplited = playerCSVString.split(",")
         playerStats.level = playerCSVStringSplited.get(0).toInt()
         playerStats.attack = playerCSVStringSplited.get(1).toInt()
@@ -77,5 +77,7 @@ class MainActivity : ComponentActivity() {
         playerStats.defense = playerCSVStringSplited.get(4).toInt()
         playerStats.healing = playerCSVStringSplited.get(5).toInt()
         playerStats.statsPoint = playerCSVStringSplited.get(6).toInt()
+
+        return playerStats
     }
 }

@@ -522,7 +522,6 @@ class FightActivity : AppCompatActivity() {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             playerCSVString = data?.getStringExtra("Player").toString()
         }
-        MainActivity().getPlayerStatsFromCSVString(playerCSVString,playerStats)
     }
 
 }
