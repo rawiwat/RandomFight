@@ -53,8 +53,6 @@ class FightActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fight)
 
-        getAllDigimons()
-
         findViewById<Button>(R.id.backButton).setOnClickListener{
             goBackConfirmation()
         }
@@ -156,7 +154,7 @@ class FightActivity : AppCompatActivity() {
         attackButton.setOnClickListener {
             buttonViewOff()
             playerAttack()
-            updateView(playerStats, enemyStats)
+            //updateView(playerStats, enemyStats)
         }
 
         defendButton.setOnClickListener {
@@ -274,7 +272,7 @@ class FightActivity : AppCompatActivity() {
 
     private fun initialize (playerStats:Player,enemyStats: EnemyStats) {
         Toast.makeText(this,"a New Enemy Arrived!",Toast.LENGTH_SHORT).show()
-
+        getAllDigimons()
         val playerHealthView = findViewById<TextView>(R.id.playerHp)
         val playerMaxHealthView = findViewById<TextView>(R.id.playerMaxHp)
         val playerAttackView = findViewById<TextView>(R.id.playerAP)
@@ -334,17 +332,17 @@ class FightActivity : AppCompatActivity() {
         playerHealingView.text = playerStats.healing.toString()
         playerLevelView.text = " LV:" + "${playerStats.level}"
 
-        val firstEnemyHealthView = findViewById<TextView>(R.id.enemyHp)
-        val firstEnemyAttackView = findViewById<TextView>(R.id.enemyAP)
-        val firstEnemyDefenseView = findViewById<TextView>(R.id.enemyDefense)
-        val firstEnemySpeedView = findViewById<TextView>(R.id.enemySpeed)
-        val firstEnemyHealingView = findViewById<TextView>(R.id.enemyHealing)
+        val enemyHealthView = findViewById<TextView>(R.id.enemyHp)
+        val enemyAttackView = findViewById<TextView>(R.id.enemyAP)
+        val enemyDefenseView = findViewById<TextView>(R.id.enemyDefense)
+        val enemySpeedView = findViewById<TextView>(R.id.enemySpeed)
+        val enemyHealingView = findViewById<TextView>(R.id.enemyHealing)
 
-        firstEnemyHealthView.text = enemyStats.health.toString()
-        firstEnemyAttackView.text = enemyStats.attack.toString()
-        firstEnemyDefenseView.text = enemyStats.defense.toString()
-        firstEnemySpeedView.text = enemyStats.speed.toString()
-        firstEnemyHealingView.text = enemyStats.healing.toString()
+        enemyHealthView.text = enemyStats.health.toString()
+        enemyAttackView.text = enemyStats.attack.toString()
+        enemyDefenseView.text = enemyStats.defense.toString()
+        enemySpeedView.text = enemyStats.speed.toString()
+        enemyHealingView.text = enemyStats.healing.toString()
     }
 
     fun playerAttack() {
@@ -354,28 +352,22 @@ class FightActivity : AppCompatActivity() {
             playerStats.attack,
             enemyStats.defense
         )
-        if (damage.hitOrNotHit == true && damage.damageDealt > 0) {
-            if (damage.damageDealt < enemyStats.health) {
-                enemyStats.health -= damage.damageDealt
-                updateView(playerStats, enemyStats)
-                showToastThenChangeTurn("${damage.damageDealt} DMG was dealt!")
-            } else {
-                enemyStats.health = 0
-                Toast.makeText(this,"Enemy Was Defeated",Toast.LENGTH_SHORT).show()
-                updateView(playerStats,enemyStats)
-                getAllDigimons()
-                wave++
-                playerStats.level += wave
-                enemyStats = RNG().getRandomEnemyStats(playerStats.level,wave)
-                //val enemyMaxHealth = enemyStats.health
-                //val enemyMaxHealthView = findViewById<TextView>(R.id.enemyMaxHp)
-                //enemyMaxHealthView.text = enemyMaxHealth.toString()
-                initialize(playerStats,enemyStats)
-            }
+        if (damage.hitOrNotHit == true && damage.damageDealt > 0 && damage.damageDealt < enemyStats.health) {
+            enemyStats.health -= damage.damageDealt
+            updateView(playerStats, enemyStats)
+            showToastThenChangeTurn("${damage.damageDealt} DMG was dealt!")
         } else if (damage.hitOrNotHit == false) {
             showToastThenChangeTurn("The Attack Missed!")
-        } else {
+        } else if (damage.damageDealt == 0){
             showToastThenChangeTurn("The Enemy was too tough no Damage was Dealt!")
+        } else if (damage.damageDealt >= enemyStats.health){
+            findViewById<TextView>(R.id.enemyHp).text = "0"
+            Toast.makeText(this, "Enemy Was Defeated", Toast.LENGTH_SHORT).show()
+            //updateView(playerStats, enemyStats)
+            wave++
+            playerStats.level += wave
+            enemyStats = RNG().getRandomEnemyStats(playerStats.level, wave)
+            Handler().postDelayed({ initialize(playerStats, enemyStats) }, 3000)
         }
     }
 

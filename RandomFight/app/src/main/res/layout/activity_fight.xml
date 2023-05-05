@@ -388,7 +388,6 @@
         android:layout_height="wrap_content"
         android:text="Back"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enemyImage"
         app:layout_constraintBottom_toTopOf="@id/playerHpBar"
         />
 
@@ -481,10 +480,10 @@
         android:layout_height="wrap_content"
         android:text="yes"
         app:layout_constraintBottom_toBottomOf="@id/gameOverMenu"
-        app:layout_constraintTop_toTopOf="@id/gameOverMenu"
         app:layout_constraintLeft_toLeftOf="@id/gameOverMenu"
         app:layout_constraintRight_toRightOf="@id/gameOverMenu"
         android:visibility="gone"
+        android:layout_marginBottom="10dp"
         />
 
 

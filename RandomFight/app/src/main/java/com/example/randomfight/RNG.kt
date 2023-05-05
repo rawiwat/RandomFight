@@ -17,7 +17,7 @@ class RNG {
     }
 
     fun getRandomEnemyStats(playerLevel:Int, Wave:Int): EnemyStats {
-        val randomDifficulty = Random.nextInt(Wave*3)
+        val randomDifficulty = Random.nextInt(Wave*Wave)
         val enemyLevel = playerLevel + randomDifficulty
         val attack = Random.nextInt(enemyLevel*5, enemyLevel*20)
         val hp: Int = Random.nextInt(enemyLevel*25 ,enemyLevel*100)
