@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.example.randomfight.R
+import com.example.randomfight.entity_model.Player
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,10 +17,14 @@ class MainActivity : ComponentActivity() {
 
         val fightButton = findViewById<Button>(R.id.fightButton)
         val upgradeButton = findViewById<Button>(R.id.upgradeButton)
+        val intent = getIntent()
+        val player:Player = intent.getSerializableExtra("Player") as Player
 
         fightButton.setOnClickListener {
             if (isNetworkConnected()) {
                 val intent = Intent(this, FightActivity::class.java)
+                if (player != Player())
+                intent.putExtra("Player", player)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "check yer internet", Toast.LENGTH_LONG).show()
@@ -29,6 +34,9 @@ class MainActivity : ComponentActivity() {
         upgradeButton.setOnClickListener {
             if (isNetworkConnected()) {
                 val intent = Intent(this, UpgradeActivity::class.java)
+                if (player != Player())
+                    intent.putExtra("Player", player)
+                startActivity(intent)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "check yer internet", Toast.LENGTH_LONG).show()

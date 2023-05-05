@@ -22,7 +22,7 @@ class Player : Serializable {
     var defense:Int = 10
     var healing:Int = 25
     //var potential:Int = 1
-    var statsPoint:Int = 100
+    var statsPoint:Int = 10
     @PrimaryKey(autoGenerate = true)@NonNull
     var id:Int = 0
 

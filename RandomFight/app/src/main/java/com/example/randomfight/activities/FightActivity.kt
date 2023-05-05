@@ -29,12 +29,12 @@ import java.util.concurrent.Executors
 
 class FightActivity : AppCompatActivity() {
 
-    enum class currentTurn {
+    enum class CurrentTurn {
         PLAYER_TURN,
         ENEMY_TURN
     }
 
-    enum class enemyMoveset{
+    enum class EnemyMoveset{
         ATTACK,
         DEFEND,
         SPEEDUP,
@@ -43,11 +43,13 @@ class FightActivity : AppCompatActivity() {
         HEALUP
     }
 
-    val playerStats = Player()
+    val intent = getIntent()
+    val player:Player = intent.getSerializableExtra("Player") as Player
+    val playerStats = getPlayerData(player)
     var wave = 1
     var enemyStats = RNG().getRandomEnemyStats(1,wave)
     var levelAtStartOfFight = playerStats.level
-    lateinit var turn:currentTurn
+    lateinit var turn:CurrentTurn
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,9 +130,9 @@ class FightActivity : AppCompatActivity() {
         }
     }
 
-    private fun whoGoesFirst(playerSpeed:Int,enemySpeed:Int):currentTurn {
-        val possibilities = listOf(currentTurn.PLAYER_TURN,currentTurn.ENEMY_TURN)
-        lateinit var result:currentTurn
+    private fun whoGoesFirst(playerSpeed:Int,enemySpeed:Int):CurrentTurn {
+        val possibilities = listOf(CurrentTurn.PLAYER_TURN,CurrentTurn.ENEMY_TURN)
+        lateinit var result:CurrentTurn
         if (playerSpeed > enemySpeed) {
             result = possibilities[0]
         } else if (enemySpeed > playerSpeed) {
@@ -221,25 +223,25 @@ class FightActivity : AppCompatActivity() {
 
         println(enemyRandomMove)
 
-        if (enemyRandomMove == enemyMoveset.ATTACK){
+        if (enemyRandomMove == EnemyMoveset.ATTACK){
             enemyAttack()
             updateView(playerStats, enemyStats)
 
-        } else if (enemyRandomMove == enemyMoveset.DEFEND){
+        } else if (enemyRandomMove == EnemyMoveset.DEFEND){
             val preBuffedDefense = enemyStats.defense
             val buffedDefense = enemyStats.defense * 2
             enemyStats.defense = buffedDefense
             updateView(playerStats,enemyStats)
             showToastThenChangeTurn("Enemy's Defense Goes Up by ${buffedDefense - preBuffedDefense}")
 
-        } else if (enemyRandomMove == enemyMoveset.SPEEDUP){
+        } else if (enemyRandomMove == EnemyMoveset.SPEEDUP){
             val preBuffedSpeed = enemyStats.speed
             val buffedSpeed = enemyStats.speed * 2
             enemyStats.speed = buffedSpeed
             updateView(playerStats,enemyStats)
             showToastThenChangeTurn("Enemy's Speed Goes Up by ${buffedSpeed - preBuffedSpeed}")
 
-        } else if (enemyRandomMove == enemyMoveset.HEAL){
+        } else if (enemyRandomMove == EnemyMoveset.HEAL){
             val currentHealth = enemyStats.health
             val maxHealthView = findViewById<TextView>(R.id.enemyMaxHp)
             val maxHealth = maxHealthView.text.toString().toInt()
@@ -258,13 +260,13 @@ class FightActivity : AppCompatActivity() {
                 showToastThenChangeTurn("Enemy healed but it's Health is already full!")
             }
 
-        } else if (enemyRandomMove == enemyMoveset.ATTACKUP){
+        } else if (enemyRandomMove == EnemyMoveset.ATTACKUP){
             val preBuffedAttack = enemyStats.attack
             val buffedAttack = enemyStats.attack * 2
             enemyStats.attack = buffedAttack
             updateView(playerStats,enemyStats)
             showToastThenChangeTurn("Enemy's Attack Power Goes Up by ${buffedAttack - preBuffedAttack}")
-        } else if (enemyRandomMove == enemyMoveset.HEALUP){
+        } else if (enemyRandomMove == EnemyMoveset.HEALUP){
             val preBuffedHealing = enemyStats.healing
             val buffedHealing = enemyStats.healing * 2
             enemyStats.healing = buffedHealing
@@ -284,10 +286,10 @@ class FightActivity : AppCompatActivity() {
         val playerHealingView = findViewById<TextView>(R.id.playerHealing)
         val playerLevelView = findViewById<TextView>(R.id.playerLevel)
 
-        if (playerMaxHealthView.text == "Max Hp"){
+        if (playerMaxHealthView.text.isEmpty()){
             playerMaxHealthView.text = playerStats.health.toString()
         }
-        
+
         playerHealthView.text = playerStats.health.toString()
         playerAttackView.text = playerStats.attack.toString()
         playerDefenseView.text = playerStats.defense.toString()
@@ -311,7 +313,7 @@ class FightActivity : AppCompatActivity() {
 
         turn = whoGoesFirst(playerStats.speed,enemyStats.speed)
         val turnView = findViewById<TextView>(R.id.turn)
-        if (turn == currentTurn.PLAYER_TURN){
+        if (turn == CurrentTurn.PLAYER_TURN){
             turnView.text = "Your Turn"
             buttonViewOn()
             Handler().postDelayed({playerMove()},3000)
@@ -472,13 +474,13 @@ class FightActivity : AppCompatActivity() {
 
     fun shiftTurn() {
         val turnView = findViewById<TextView>(R.id.turn)
-        if (turn == currentTurn.PLAYER_TURN) {
-            turn = currentTurn.ENEMY_TURN
+        if (turn == CurrentTurn.PLAYER_TURN) {
+            turn = CurrentTurn.ENEMY_TURN
             turnView.text = "Enemy Turn"
             //shiftButtonView()
             enemyMove()
         } else {
-            turn = currentTurn.PLAYER_TURN
+            turn = CurrentTurn.PLAYER_TURN
             turnView.text = "Your Turn"
             //shiftButtonView()
             playerMove()
@@ -511,4 +513,14 @@ class FightActivity : AppCompatActivity() {
              startActivity(intent)
          }
      }
+
+    fun getPlayerData(player: Player) :Player {
+        val playerData:Player
+        if (player != Player()){
+            playerData = player
+        } else {
+            playerData = Player()
+        }
+    return playerData
+    }
 }

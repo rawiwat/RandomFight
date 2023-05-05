@@ -1,8 +1,5 @@
 package com.example.randomfight
 
-import android.content.Context
-import android.widget.Toast
-import androidx.compose.ui.Modifier
 import com.example.randomfight.activities.DMGcalc
 import com.example.randomfight.activities.FightActivity
 import com.example.randomfight.entity_model.Enemy
@@ -28,14 +25,14 @@ class RNG {
         return enemyStats
     }
 
-    fun enemyRandomlyChoseMove(): FightActivity.enemyMoveset {
+    fun enemyRandomlyChoseMove(): FightActivity.EnemyMoveset {
         //will return action as a string like attack heal defend etc
-        val listOfPossibleMove = listOf(FightActivity.enemyMoveset.ATTACK,
-                                        FightActivity.enemyMoveset.DEFEND,
-                                        FightActivity.enemyMoveset.SPEEDUP,
-                                        FightActivity.enemyMoveset.HEAL,
-                                        FightActivity.enemyMoveset.ATTACKUP,
-                                        FightActivity.enemyMoveset.HEALUP)
+        val listOfPossibleMove = listOf(FightActivity.EnemyMoveset.ATTACK,
+                                        FightActivity.EnemyMoveset.DEFEND,
+                                        FightActivity.EnemyMoveset.SPEEDUP,
+                                        FightActivity.EnemyMoveset.HEAL,
+                                        FightActivity.EnemyMoveset.ATTACKUP,
+                                        FightActivity.EnemyMoveset.HEALUP)
         val result = listOfPossibleMove.random()
         return result
     }
