@@ -49,7 +49,7 @@ class FightActivity : AppCompatActivity() {
     var enemyStats = RNG().getRandomEnemyStats(1,wave)
     var levelAtStartOfFight = playerStats.level
     lateinit var turn:CurrentTurn
-    var playerCSVString:String = "1,10,50,20,10,25,2"
+    var playerCSVString:String = Player().toCSVString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -517,11 +517,10 @@ class FightActivity : AppCompatActivity() {
          }
      }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            playerCSVString = data?.getStringExtra("Player").toString()
+    override fun startActivityForResult(intent: Intent, requestCode: Int) {
+        super.startActivityForResult(intent, requestCode)
+        if (requestCode == 1) {
+            playerCSVString = intent.getStringExtra("Player").toString()
         }
     }
-
 }

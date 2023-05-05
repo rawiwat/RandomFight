@@ -13,7 +13,7 @@ import com.example.randomfight.R
 import com.example.randomfight.entity_model.Player
 
 class UpgradeActivity : AppCompatActivity() {
-    var playerCSVString:String = "1,10,50,20,10,25,2"
+    var playerCSVString:String = Player().toCSVString()
     var summitedStats = Player()
     var playerStatsBeforeUpgradeActivity = Player()
     var progressSave = false
@@ -117,7 +117,7 @@ class UpgradeActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_OK, intent)
                 startActivityForResult(intent, 1)
             } else {
-                val playerCSVString = summitedStats.toCSVString()
+                val playerCSVString = playerStatsBeforeUpgradeActivity.toCSVString()
                 intent.putExtra("Player", playerCSVString)
                 setResult(Activity.RESULT_OK, intent)
                 startActivityForResult(intent, 1)
@@ -132,10 +132,10 @@ class UpgradeActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            playerCSVString = data?.getStringExtra("Player").toString()
+    override fun startActivityForResult(intent: Intent, requestCode: Int) {
+        super.startActivityForResult(intent, requestCode)
+        if (requestCode == 1) {
+            playerCSVString = intent.getStringExtra("Player").toString()
         }
     }
 
