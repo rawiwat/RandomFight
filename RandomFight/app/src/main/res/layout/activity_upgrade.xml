@@ -219,6 +219,7 @@
             app:layout_constraintRight_toLeftOf="@id/summitUpgradeButton"
             app:layout_constraintBottom_toBottomOf="@id/summitUpgradeButton"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <Button
         android:id="@+id/backButtonInUpgrade"
         android:layout_width="wrap_content"

@@ -15,13 +15,14 @@ import com.example.randomfight.entity_model.Player
 class UpgradeActivity : AppCompatActivity() {
     var playerCSVString:String = "1,10,50,20,10,25,2"
     var summitedStats = Player()
+    var playerStatsBeforeUpgradeActivity = Player()
     var progressSave = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upgrade)
         val playerStats = MainActivity().getPlayerStatsFromCSVString(playerCSVString)
-        val playerStatsBeforeUpgradeActivity = playerStats
+        playerStatsBeforeUpgradeActivity = playerStats
         println(playerStats)
         updateView(playerStats)
 
@@ -134,9 +135,8 @@ class UpgradeActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == RESULT_OK) {
-                playerCSVString = data?.getStringExtra("Player").toString()
-            }
-
+            playerCSVString = data?.getStringExtra("Player").toString()
         }
+    }
 
 }

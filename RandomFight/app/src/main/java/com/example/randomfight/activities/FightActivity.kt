@@ -49,7 +49,7 @@ class FightActivity : AppCompatActivity() {
     var enemyStats = RNG().getRandomEnemyStats(1,wave)
     var levelAtStartOfFight = playerStats.level
     lateinit var turn:CurrentTurn
-    lateinit var playerCSVString:String
+    var playerCSVString:String = "1,10,50,20,10,25,2"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
