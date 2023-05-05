@@ -12,10 +12,16 @@ import com.example.randomfight.R
 import com.example.randomfight.entity_model.Player
 
 class UpgradeActivity : AppCompatActivity() {
+
+    var progressSave = false
+    val intent = getIntent()
+    val player:Player = intent.getSerializableExtra("Player") as Player
+    val playerStats = getPlayerData(player)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upgrade)
-        val playerStats = Player()
+
         println(playerStats)
         updateView(playerStats)
 
@@ -50,13 +56,7 @@ class UpgradeActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.summitUpgradeButton).setOnClickListener {
-            Player().health = playerStats.health
-            Player().attack = playerStats.attack
-            Player().defense = playerStats.defense
-            Player().speed = playerStats.speed
-            Player().healing = playerStats.healing
-            Player().statsPoint = playerStats.statsPoint
-
+            progressSave = true
             Toast.makeText(this, "Upgrade Saved", Toast.LENGTH_SHORT).show()
         }
 
@@ -109,6 +109,8 @@ class UpgradeActivity : AppCompatActivity() {
         backPressedNo.visibility = View.VISIBLE
         backPressedYes.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            if (playerStats != Player() && progressSave == true)
+                intent.putExtra("Player", playerStats)
             startActivity(intent)
         }
         backPressedNo.setOnClickListener {
@@ -117,5 +119,15 @@ class UpgradeActivity : AppCompatActivity() {
             backPressedYes.visibility = View.GONE
             backPressedNo.visibility = View.GONE
         }
+    }
+
+    fun getPlayerData(player: Player) :Player {
+        val playerData:Player
+        if (player != Player()){
+            playerData = player
+        } else {
+            playerData = Player()
+        }
+        return playerData
     }
 }

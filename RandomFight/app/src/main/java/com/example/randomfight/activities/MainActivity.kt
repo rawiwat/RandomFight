@@ -37,7 +37,6 @@ class MainActivity : ComponentActivity() {
                 if (player != Player())
                     intent.putExtra("Player", player)
                 startActivity(intent)
-                startActivity(intent)
             } else {
                 Toast.makeText(this, "check yer internet", Toast.LENGTH_LONG).show()
             }
