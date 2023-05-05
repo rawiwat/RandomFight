@@ -486,6 +486,7 @@ class FightActivity : AppCompatActivity() {
             shiftTurn()
         }, 3000)
     }
+
      fun gameOverManGameOver(){
          val levelGained = playerStats.level - levelAtStartOfFight
          val statsPointGain = levelGained * wave

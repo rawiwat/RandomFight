@@ -1,9 +1,13 @@
 package com.example.randomfight.activities
 
-import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.example.randomfight.R
 import com.example.randomfight.entity_model.Player
 
@@ -11,45 +15,61 @@ class UpgradeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upgrade)
-        var playerstats = Player()
-        updateView(playerstats)
+        val playerStats = Player()
+        println(playerStats)
+        updateView(playerStats)
 
-        findViewById<TextView>(R.id.healthInUpgrade).setOnClickListener {
-            upgradeButton(playerstats.health,0,0,0,0)
-            playerstats = Player()
-            updateView(playerstats)
+        findViewById<Button>(R.id.healthUpgradeButton).setOnClickListener {
+            upgradeButton(playerStats,playerStats.health/2,0,0,0,0)
+            println(playerStats)
+            updateView(playerStats)
         }
 
-        findViewById<TextView>(R.id.attackInUpgrade).setOnClickListener {
-            upgradeButton(0,10,0,0,0)
-            playerstats = Player()
-            updateView(playerstats)
+        findViewById<Button>(R.id.attackUpgradeButton).setOnClickListener {
+            upgradeButton(playerStats,0,playerStats.attack/2,0,0,0)
+            println(playerStats)
+            updateView(playerStats)
         }
 
-        findViewById<TextView>(R.id.defenseInUpgrade).setOnClickListener {
-            upgradeButton(0,0,10,0,0)
-            playerstats = Player()
-            updateView(playerstats)
+        findViewById<Button>(R.id.defenseUpgradeButton).setOnClickListener {
+            upgradeButton(playerStats,0,0,playerStats.defense/2,0,0)
+            println(playerStats)
+            updateView(playerStats)
         }
 
-        findViewById<TextView>(R.id.speedInUpgrade).setOnClickListener {
-            upgradeButton(0,0,0,20,0)
-            playerstats = Player()
-            updateView(playerstats)
+        findViewById<Button>(R.id.speedUpgradeButton).setOnClickListener {
+            upgradeButton(playerStats,0,0,0,playerStats.speed/2,0)
+            println(playerStats)
+            updateView(playerStats)
         }
 
-        findViewById<TextView>(R.id.healingInUpgrade).setOnClickListener {
-            upgradeButton(0,0,0,0,25)
-            playerstats = Player()
-            updateView(playerstats)
+        findViewById<Button>(R.id.healingUpgradeButton).setOnClickListener {
+            upgradeButton(playerStats,0,0,0,0,playerStats.healing/2)
+            println(playerStats)
+            updateView(playerStats)
         }
 
+        findViewById<Button>(R.id.summitUpgradeButton).setOnClickListener {
+            Player().health = playerStats.health
+            Player().attack = playerStats.attack
+            Player().defense = playerStats.defense
+            Player().speed = playerStats.speed
+            Player().healing = playerStats.healing
+            Player().statsPoint = playerStats.statsPoint
 
+            Toast.makeText(this, "Upgrade Saved", Toast.LENGTH_SHORT).show()
+        }
+
+        findViewById<Button>(R.id.backButtonInUpgrade).setOnClickListener {
+            goBackConfirmation()
+        }
 
     }
 
-    @SuppressLint("SetTextI18n")
-    fun updateView(playerStats:Player) {
+    override fun onBackPressed() {
+        goBackConfirmation()
+    }
+    fun updateView(playerstats:Player) {
         val playerHP = findViewById<TextView>(R.id.healthInUpgrade)
         val playerATK = findViewById<TextView>(R.id.attackInUpgrade)
         val playerDEF = findViewById<TextView>(R.id.defenseInUpgrade)
@@ -57,21 +77,45 @@ class UpgradeActivity : AppCompatActivity() {
         val playerHL = findViewById<TextView>(R.id.healingInUpgrade)
         val statsPoint = findViewById<TextView>(R.id.statsPoint)
 
-        playerHP.text = "HP:${playerStats.health}"
-        playerATK.text = "ATK:${playerStats.attack}"
-        playerDEF.text = "DEF:${playerStats.defense}"
-        playerSP.text = "SP:${playerStats.speed}"
-        playerHL.text = "HL:${playerStats.healing}"
-        statsPoint.text = "Stats Point:${playerStats.statsPoint}"
+        playerHP.text = playerstats.health.toString()
+        playerATK.text = playerstats.attack.toString()
+        playerDEF.text = playerstats.defense.toString()
+        playerSP.text = playerstats.speed.toString()
+        playerHL.text = playerstats.healing.toString()
+        statsPoint.text = playerstats.statsPoint.toString()
     }
 
-    fun upgradeButton(healthUp:Int,atkUp:Int,defUp:Int,spUp:Int,hlUp:Int) {
-        Player().health += healthUp
-        Player().attack += atkUp
-        Player().defense += defUp
-        Player().speed += spUp
-        Player().healing += hlUp
-
+    fun upgradeButton(playerstats: Player, healthUp:Int,atkUp:Int,defUp:Int,spUp:Int,hlUp:Int) {
+        if (playerstats.statsPoint >= 1) {
+            playerstats.statsPoint--
+            playerstats.health += healthUp
+            playerstats.attack += atkUp
+            playerstats.defense += defUp
+            playerstats.speed += spUp
+            playerstats.healing += hlUp
+        } else {
+            Toast.makeText(this,"no stats point left!",Toast.LENGTH_SHORT).show()
+        }
     }
 
+    fun goBackConfirmation() {
+        val backPressedMenu = findViewById<ImageView>(R.id.backPressMenuInUpgrade)
+        val backPressedMenuText = findViewById<TextView>(R.id.backPressMenuTextInUpgrade)
+        val backPressedYes = findViewById<Button>(R.id.yesBackPressedMenuInUpgrade)
+        val backPressedNo = findViewById<Button>(R.id.NoBackPressedMenuInUpgrade)
+        backPressedMenu.visibility = View.VISIBLE
+        backPressedMenuText.visibility = View.VISIBLE
+        backPressedYes.visibility = View.VISIBLE
+        backPressedNo.visibility = View.VISIBLE
+        backPressedYes.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        backPressedNo.setOnClickListener {
+            backPressedMenu.visibility = View.GONE
+            backPressedMenuText.visibility = View.GONE
+            backPressedYes.visibility = View.GONE
+            backPressedNo.visibility = View.GONE
+        }
+    }
 }

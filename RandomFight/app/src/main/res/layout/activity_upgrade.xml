@@ -91,16 +91,6 @@
         app:layout_constraintRight_toLeftOf="@id/backButtonInUpgrade"
         />
 
-    <Button
-        android:id="@+id/backButtonInUpgrade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="back"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/statsPoint"
-        app:layout_constraintLeft_toRightOf="@id/statsPoint"
-        app:layout_constraintBottom_toBottomOf="@id/statsPoint"
-        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/updrageLayout"
@@ -125,7 +115,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HP \n X2"
+            android:text="HP \n X1.5"
             app:layout_constraintTop_toTopOf="@id/healthUpgradeButton"
             app:layout_constraintRight_toLeftOf="@id/healthUpgradeButton"
             app:layout_constraintBottom_toBottomOf="@id/healthUpgradeButton"
@@ -145,7 +135,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ATK \n +10"
+            android:text="ATK \n X1.5"
             app:layout_constraintTop_toTopOf="@id/attackUpgradeButton"
             app:layout_constraintRight_toLeftOf="@id/attackUpgradeButton"
             app:layout_constraintBottom_toBottomOf="@id/attackUpgradeButton"
@@ -165,7 +155,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DEF \n +10"
+            android:text="DEF \n X1.5"
             app:layout_constraintTop_toTopOf="@id/defenseUpgradeButton"
             app:layout_constraintRight_toLeftOf="@id/defenseUpgradeButton"
             app:layout_constraintBottom_toBottomOf="@id/defenseUpgradeButton"
@@ -184,7 +174,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SP \n +20"
+            android:text="SP \n X1.5"
             app:layout_constraintTop_toTopOf="@id/speedUpgradeButton"
             app:layout_constraintRight_toLeftOf="@id/speedUpgradeButton"
             app:layout_constraintBottom_toBottomOf="@id/speedUpgradeButton"
@@ -204,7 +194,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HL \n +5"
+            android:text="HL \n X1.5"
             app:layout_constraintTop_toTopOf="@id/healingUpgradeButton"
             app:layout_constraintRight_toLeftOf="@id/healingUpgradeButton"
             app:layout_constraintBottom_toBottomOf="@id/healingUpgradeButton"
@@ -228,7 +218,60 @@
             app:layout_constraintTop_toTopOf="@id/summitUpgradeButton"
             app:layout_constraintRight_toLeftOf="@id/summitUpgradeButton"
             app:layout_constraintBottom_toBottomOf="@id/summitUpgradeButton"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/backButtonInUpgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="back"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/statsPoint"
+        app:layout_constraintLeft_toRightOf="@id/statsPoint"
+        app:layout_constraintBottom_toBottomOf="@id/statsPoint"
+        />
 
+    <ImageView
+        android:id="@+id/backPressMenuInUpgrade"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:background="@color/teal_200"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/backPressMenuTextInUpgrade"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Are you sure you want to go back to the main menu? Unsaved Upgrade will be lost"
+        app:layout_constraintTop_toTopOf="@id/backPressMenuInUpgrade"
+        app:layout_constraintLeft_toLeftOf="@id/backPressMenuInUpgrade"
+        app:layout_constraintRight_toRightOf="@id/backPressMenuInUpgrade"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/yesBackPressedMenuInUpgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="yes"
+        app:layout_constraintBottom_toBottomOf="@id/backPressMenuInUpgrade"
+        app:layout_constraintTop_toBottomOf="@id/backPressMenuTextInUpgrade"
+        app:layout_constraintLeft_toLeftOf="@id/backPressMenuInUpgrade"
+        app:layout_constraintRight_toLeftOf="@id/NoBackPressedMenuInUpgrade"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/NoBackPressedMenuInUpgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="no"
+        app:layout_constraintBottom_toBottomOf="@id/backPressMenuInUpgrade"
+        app:layout_constraintTop_toBottomOf="@id/backPressMenuTextInUpgrade"
+        app:layout_constraintRight_toRightOf="@id/backPressMenuInUpgrade"
+        app:layout_constraintLeft_toRightOf="@id/yesBackPressedMenuInUpgrade"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
